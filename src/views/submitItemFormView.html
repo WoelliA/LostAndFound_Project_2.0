@@ -1,0 +1,60 @@
+﻿<!--Formular für Anzeigen-->
+<head>
+    <link href="../../res/css/foundation.css" rel="stylesheet" />
+</head>
+<form data-bind="submit:submit">
+    <fieldset style="width: 500px">
+        <legend>Anzeige aufgeben</legend>
+        <div>
+            <div style="float:left"><input type="radio" value="stolen" data-bind="checked:type">Gestohlen</div>
+            <div><input type="radio" value="lost" data-bind="checked:type">Verloren</div>
+        </div>
+        <div class="row">
+                <label>
+                    Kategorie
+                    <select data-bind="options: categories, optionsText: 'name', value: selectedCategory"></select>
+                </label>
+        </div>
+
+        <div class="row">
+                <label>
+                    Kategorie
+                    <select data-bind="options: selectedCategory().subcategories, optionsText: 'name', value: selectedCategorySubcategory"></select>
+                </label>
+        </div>
+        <div class="row">
+                <label>
+                    Hersteller
+                    <input type="text" placeholder="Hersteller und Modell" />
+                </label>
+        </div>
+        <!--<div class="row">
+                <label>
+                    Farbe
+                    <select data-bind="options: colors, optionsText: 'color'"></select>
+                </label>
+        </div>-->
+
+        <!--<div class="row">
+                <label>
+                    Bezeichnung
+                </label>
+        </div>-->
+
+        <div class="row" data-bind="if:selectedCategory().hasUniqueID">
+            <label>
+                Rahmennummer
+                <input type="number" placeholder="Rahmennummer des Fahrrads" />
+            </label>
+        </div>
+        <div class="row">
+                <label>
+                    Weitere Informationen
+                    <textarea placeholder="Sonstige wichtige Informationen"></textarea>
+                </label>
+        </div>
+
+        <input type="submit" class="button">
+
+    </fieldset>
+</form>
