@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -25,8 +24,8 @@
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right">
-                <li class="active"><a href="#/submitItemForm" style="width:200px">Submit Report</a></li>
-                <li class="active"><a href="#/loginView" style="width:200px">Login</a></li>
+                <li class="active"><a href="#/submitItem" style="width: 200px">Submit Report</a></li>
+                <li class="active"><a href="#/login" style="width: 200px">Login</a></li>
                 <li class="has-dropdown" hidden>
                     <a href="#">Right Button Dropdown</a>
                     <ul class="dropdown">
@@ -42,22 +41,21 @@
             </ul>
         </section>
     </nav>
-    <div id="content" style="position:relative">
+    <div id="content" style="position: relative">
         <div id="frame"></div>
-        <div data-bind="visible: isloading() && isloading">
-            <div style="position:absolute; top:0; left:0; bottom:0; right:0">
-                <img style="margin-left: auto;margin-right: auto;left: 0;right: 0;
-top: 0;position: absolute;bottom: 0;margin-top: auto;margin-bottom: auto;" src="res/images/metro-loading.gif" />
-            </div>
-        </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">    </script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCNihRlhXgkhKaBb5UzntYtJFn6e0nUj0U"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+    <script src="libs/common_bundle.js"></script>
     <script src="libs/foundation.min.js"></script>
+
     <script src="src/LostAndFoundApp.js"></script>
-    <script >
+    <script src="/src/model/_modelbundle.js"></script>
+    <script src="/src/model/dummy/_modelbundle.js"></script>
+
+    <script>
         LostAndFound.App.init();
-       
     </script>
 
 </body>

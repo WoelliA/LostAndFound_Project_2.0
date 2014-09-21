@@ -1,0 +1,22 @@
+﻿<html>
+<body>
+
+    <div class="row" style="height:500px;">
+        <div class="column large-5 small-12">
+            <div id="map-canvas" style="width: 500px; height: 500px"></div>
+        </div>
+        <div class="column large-7 small-12" style="height:500px; overflow:auto">
+            <ul data-bind="foreach: reports">
+                <li style="width: 100%; " class="th">
+                    <img style="height: 140px; width: 140px;float:left; margin-right:0.8rem" data-bind="attr: {src: imageURL}">
+                    <h4 data-bind="text: title"></h4>
+                    <p style="font-size: 0.8rem;" data-bind="text: description"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/src/views/listView.js"></script>
+    <script src="/src/views/mapView.js"></script>
+</body>
+</html>
