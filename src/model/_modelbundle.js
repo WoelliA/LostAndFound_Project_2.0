@@ -1,6 +1,6 @@
 ﻿///#source 1 1 /src/model/report.js
 LostAndFound.Model.Report = function() {
-    var lng, lat, id;
+    var lng, lat, id, imageURL, description, title;
 }
 ///#source 1 1 /src/model/reportsRequest.js
 LostAndFound.Model.ReportsRequest = function (sector) {

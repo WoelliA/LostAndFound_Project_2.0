@@ -36,6 +36,9 @@
                 position: location,
                 map: map
             });
+            google.maps.event.addListener(marker, 'click', function() {
+                $(that).trigger("report-selected", id);
+            });
             markers[id] = marker;
         },
 
