@@ -10,11 +10,10 @@
   </settings>
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
-    <file>/src/model/report.js</file>
-    <file>/src/model/reportsRequest.js</file>
-    <file>/src/model/sector.js</file>
-    <file>/src/model/reportsModel.js</file>
     <file>/src/model/userModel.js</file>
+    <file>/src/model/commentsModel.js</file>
     <file>/src/model/geoModel.js</file>
+    <file>/src/model/reportsModel.js</file>
+    <file>/src/model/configModel.js</file>
   </files>
 </bundle>

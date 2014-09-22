@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Lost and found</title>
-    <link href="res/css/foundation.css" rel="stylesheet" />
     <link href="res/css/normalize.css" rel="stylesheet" />
+    <link href="res/css/foundation.css" rel="stylesheet" />
+    <link href="res/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -45,16 +46,31 @@
         <div id="frame"></div>
     </div>
 
+    <div id="modal" class="reveal-modal" data-reveal>
+        <div id="modal-frame" class="modal-frame">
+            <h1>modal</h1>
+        </div>
+    </div>
+
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCNihRlhXgkhKaBb5UzntYtJFn6e0nUj0U"></script>
     <script src="libs/jquery-2.1.1.js"> </script>
     <script src="libs/mustache.js"></script>
     <script src="libs/common_bundle.js"></script>
     <script src="libs/foundation.min.js"></script>
 
-    <script src="src/LostAndFoundApp.js"></script>
-    <script src="/src/model/_modelbundle.js"></script>
-    <script src="/src/model/dummy/_modelbundle.js"></script>
+    <script src="/src/LostAndFoundApp.js"></script>
+    
+    <script src="/src/views/icon.js"></script>
 
+    <script src="/src/model/primivites/primitivesmodel.js"></script>
+    <script src="/src/model/requests/requestsbundle.js"></script>
+    <script src="/src/model/_modelbundle.js"></script>
+
+    <script src="src/model/dummy/primivites/dummyprimivitesbundle.js"></script>
+    <script src="/src/model/dummy/_modelbundle.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
     <script>
         LostAndFound.App.init();
     </script>

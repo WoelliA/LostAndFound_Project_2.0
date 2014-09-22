@@ -10,11 +10,15 @@ LostAndFound.App = (function () {
 
         isRelease = false,
 
-        init = function() {
+        init = function () {
+            $.ajaxSetup({
+                cache: true
+            });
             initPresenter();
         },
 
         initPresenter = function() {
+
             var frame = document.getElementById("frame");
             var context = document.getElementById("content");
             var root = window.location.origin;
@@ -40,11 +44,22 @@ LostAndFound.App = (function () {
                 frame: frame,
                 htmlLoader: htmlLoader,
                 loaders: loaders
-            }
+            };
+
             LostAndFound.Presenter = new Presenting.MainPresenter(settings, context);
+            var routing = LostAndFound.Presenter.routing;
+
+            var modal = new Presenting.FoundationModal(document.getElementById("modal"), document.getElementById("modal-frame"));
+            var modalPresenter = new Presenting.ModalPresenter(modal, settings, routing);
+            routing.addRoute("report/{0}", function (id) {
+                modalPresenter.show("report", id);
+            });
+
             LostAndFound.Presenter.show("main");
         },
-
+        
+    //        document.getElementById('modal-frame');
+    //document.getElementById('modal');
         createModelParameters = function() {            
             if (isRelease) {
                 return LostAndFound.Model;

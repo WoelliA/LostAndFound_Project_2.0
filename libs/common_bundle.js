@@ -32,8 +32,6 @@ var Helpers;
         InstanceLoader.prototype.getReference = function (name) {
             var nameSpace = this.context;
 
-            console.log("instance loader getInstance - classcontext", nameSpace);
-            console.log("instance loader getInstance - subcon", this.subcontexts);
             if (this.subcontexts)
                 for (var key in this.subcontexts) {
                     var subcontext = this.subcontexts[key];
@@ -41,10 +39,6 @@ var Helpers;
                         nameSpace = nameSpace["" + subcontext];
                     }
                 }
-
-            console.log("instance loader getInstance - classcontext", nameSpace);
-            console.log("instance loader getInstance - className", name);
-            console.log("instance loader - loading object", nameSpace[name]);
 
             var o = nameSpace[name];
             return o;
@@ -72,7 +66,18 @@ var Helpers;
         InitInstanceLoader.prototype.addParameters = function (args) {
             if (!args) {
                 args = [];
+            } else {
+                var a = {};
+                for (var index in args) {
+                    var el = args[index];
+                    a[index] = el;
+                    for (var k in el) {
+                        a[k] = el[k];
+                    }
+                }
+                args = a;
             }
+
             if (this.parameters) {
                 for (var key in this.parameters) {
                     var param = this.parameters[key];
@@ -211,6 +216,7 @@ var Presenting;
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     params[_i] = arguments[_i + 0];
                 }
+                console.log("route parsed", path, params);
                 if (callback)
                     callback(params);
                 else
@@ -222,6 +228,7 @@ var Presenting;
             console.log("parsing", url);
             crossroads.parse(url);
         };
+
         Routing.prototype.goback = function () {
             this.historyjs.back();
         };
@@ -386,7 +393,9 @@ var Presenting;
         }
         ControllerLoader.prototype.onComplete = function (result) {
             var className = this.targetToClassName(result.target);
-            result.results[result.target] = this.instanceLoader.getInstance(className, result.results);
+            var params = [];
+            params["result"] = result;
+            result.results[result.target] = this.instanceLoader.getInstance(className, result);
         };
 
         ControllerLoader.getDefaultSettings = function (root) {
@@ -416,19 +425,23 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/// <reference path="../events/event.ts" />
 /// <reference path="../helpers/nodehelper.ts" />
 /// <reference path="loader.ts" />
-/// <reference path="../events/event.ts" />
 /// <reference path="../js-signals.d.ts" />
 /// <reference path="modal.ts" />
+/// <reference path="../events/Event.ts" />
 /// <reference path="routing.ts" />
+/// <reference path="../foundation.d.ts" />
 /// <reference path="presenting.d.ts" />
 var Presenting;
 (function (Presenting) {
     var NodeHelper = Helpers.NodeHelper;
 
+    var Event = Events.Event;
+
     var PresentationRequest = (function () {
-        function PresentationRequest(target, parameter, htmlLoader, loaders) {
+        function PresentationRequest(target, parameters, htmlLoader, loaders) {
             this.loadersDone = false;
             this.viewLoaderDone = false;
             this.target = target;
@@ -437,7 +450,7 @@ var Presenting;
 
             this.result = new Presenting.LoadingResult();
             this.result.target = target;
-            this.result.parameter = parameter;
+            this.result.parameters = parameters;
         }
         PresentationRequest.prototype.execute = function () {
             var _this = this;
@@ -520,9 +533,6 @@ var Presenting;
             request.execute();
         };
 
-        Presenter.prototype.initDataDefers = function (htmlElement, parameter) {
-        };
-
         Presenter.prototype.onContentLoaded = function (parameter) {
             var _this = this;
             if (this.contentListeners == null) {
@@ -581,7 +591,7 @@ var Presenting;
                 for (var _i = 0; _i < (arguments.length - 1); _i++) {
                     params[_i] = arguments[_i + 1];
                 }
-                console.log('route parsed', params);
+                console.log('mainpresenter route callback', params);
                 _this.show(params[0], null);
             });
             this.routing.addRoute("{section}");
@@ -595,6 +605,61 @@ var Presenting;
         return MainPresenter;
     })(Presenter);
     Presenting.MainPresenter = MainPresenter;
+
+    var ModalPresenter = (function (_super) {
+        __extends(ModalPresenter, _super);
+        function ModalPresenter(modal, settings, routing) {
+            var _this = this;
+            _super.call(this, settings);
+            this.modal = modal;
+            this.frame = modal.frame;
+
+            routing.goBackRequested.add(function (s) {
+                console.log("modalpresenter.routing.gobackrequsted", _this.modal.isOpen);
+                if (_this.modal.isOpen)
+                    _this.modal.hide();
+            });
+            this.modal.statechanged.add(function (p) {
+                console.log("modalpresenter.modal.statechanged", p.isopen);
+                _this.modal.isOpen = p.isopen;
+                if (!p.isopen)
+                    routing.goback();
+            });
+        }
+        ModalPresenter.prototype.show = function (target, parameter, callback) {
+            this.modal.show();
+            _super.prototype.show.call(this, target, parameter, callback);
+        };
+        return ModalPresenter;
+    })(Presenter);
+    Presenting.ModalPresenter = ModalPresenter;
+
+    var FoundationModal = (function () {
+        function FoundationModal(modal, frame) {
+            var _this = this;
+            this.statechanged = new Event();
+            this.frame = frame;
+            this.$modal = $(modal);
+            $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
+                _this.isOpen = true;
+                _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(true));
+            });
+            $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+                _this.isOpen = false;
+                _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(false));
+            });
+        }
+        FoundationModal.prototype.show = function () {
+            console.log("modal.show");
+            this.$modal.foundation('reveal', 'open');
+        };
+        FoundationModal.prototype.hide = function () {
+            console.log("modal.hide");
+            this.$modal.foundation('reveal', 'close');
+        };
+        return FoundationModal;
+    })();
+    Presenting.FoundationModal = FoundationModal;
 })(Presenting || (Presenting = {}));
 //# sourceMappingURL=presenter.js.map
 

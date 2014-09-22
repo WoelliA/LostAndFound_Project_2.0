@@ -1,0 +1,43 @@
+﻿<div class="content">
+    <div class="row">
+        <div class="map-canvas" style="width: 100%; height: 200px"></div>
+    </div>
+    <div class="row">
+        <div class="column medium-9 details-frame" id="details-frame"></div>
+        <div class="column medium-3">
+            <ul class="row comments-list"></ul>
+            <div class="row">
+                <input type="text" id="comment-input" class="comment-input" />
+                <button id="submit-comment">submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+      
+    </div>
+    
+</div>
+
+<script id="comment-template" type="x-tmpl-mustache">
+    <li class="comment">
+        <div>
+            <h4>{{user.name}}</h4>
+            <p style="font-size: 0.8rem;">{{content}}</p>
+        </div>
+    </li>
+</script>
+
+<script id="report-detail-template" type="x-tmpl-mustache">
+    <div class="row">
+        <div class="column medium-5">
+            <img style="width:100%" src="{{imageURL}}">
+        </div>
+        <div class="column medium-7">
+                       <h2>{{title}}</h2>
+            <p style="font-size: 0.8rem;">{{description}}</p>
+        </div>
+    </div>
+</script>
+<script src="/src/views/mapView.js"></script>
+<script src="/src/views/reportView.js"></script>
+<script src="/src/views/commentsView.js"></script>

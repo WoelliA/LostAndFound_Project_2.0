@@ -1,38 +1,4 @@
-﻿///#source 1 1 /src/model/report.js
-LostAndFound.Model.Report = function() {
-    var lng, lat, id, imageURL, description, title;
-}
-///#source 1 1 /src/model/reportsRequest.js
-LostAndFound.Model.ReportsRequest = function (sector) {
-    this.sector = sector;
-};
-///#source 1 1 /src/model/sector.js
-LostAndFound.Model.Sector = function (longMin, longMax, latMin, latMax) {
-    this.longMin = longMin;
-    this.longMax = longMax;
-    this.latMin = latMin;
-    this.latMax = latMax;
-}
-///#source 1 1 /src/model/reportsModel.js
-LostAndFound.Model.ReportsModel = (function() {
-    var that = {},
-
-        init = function () {
-
-            return that;
-        },
-
-        getReports = function (request, callback) {
-            /// <param name="request" type="LostAndFound.Model.ReportsRequest">The request.</param>
-
-        };
-
-    that.getReports = getReports;
-    that.init = init;
-    return that;
-
-}());
-///#source 1 1 /src/model/userModel.js
+﻿///#source 1 1 /src/model/userModel.js
 LostAndFound.Model.UserModel = (function () {
     var that = {},
 
@@ -45,10 +11,28 @@ LostAndFound.Model.UserModel = (function () {
     return that;
 
 }());
+///#source 1 1 /src/model/commentsModel.js
+LostAndFound.Model.CommentsModel = (function () {
+    var that = {},
+
+        init = function() {
+
+            return that;
+        },
+
+        getReportsComments = function(reportId, callback) {
+
+        };
+
+    that.getReportsComments = getReportsComments;
+    that.init = init;
+    return that;
+
+}());
 ///#source 1 1 /src/model/geoModel.js
 LostAndFound.Model.GeoModel = (function () {
     var that = {},
-        initialLocation = { x: 10, y: 50 },
+        initialLocation = { lng: 10, lat: 50 },
 
         init = function () {
             return that;
@@ -65,8 +49,8 @@ LostAndFound.Model.GeoModel = (function () {
             if (navigator.geolocation) {
                 browserSupportFlag = true;
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    initialLocation.x = position.coords.longitude;
-                    initialLocation.y = position.coords.latitude;
+                    initialLocation.lng = position.coords.longitude;
+                    initialLocation.lat = position.coords.latitude;
                     callback(initialLocation);
                 }, function () {
                     handleNoGeolocation(browserSupportFlag);
@@ -90,4 +74,47 @@ LostAndFound.Model.GeoModel = (function () {
     that.getCurrentLocation = getCurrentLocation;
     that.init = init;
     return that;
+}());
+///#source 1 1 /src/model/reportsModel.js
+LostAndFound.Model.ReportsModel = (function () {
+    var that = {},
+
+        init = function () {
+
+            return that;
+        },
+
+         getReport = function (reportId, callback) {
+
+         },
+
+        getReports = function (request, callback) {
+            /// <param name="request" type="LostAndFound.Model.ReportsRequest">The request.</param>
+
+        };
+
+    that.getReport = getReport;
+    that.getReports = getReports;
+    that.init = init;
+    return that;
+
+}());
+///#source 1 1 /src/model/configModel.js
+LostAndFound.Model.ConfigModel = (function () {
+    var that = {},
+
+        init = function () {
+
+            return that;
+        },
+
+             getItemTypes = function (callback) {
+
+             };
+
+    that.getItemTypes = getItemTypes;
+
+    that.init = init;
+    return that;
+
 }());

@@ -1,0 +1,54 @@
+
+
+ul {
+    margin-left: 0;
+}
+
+.comments-list {
+    max-height: 300px;
+    overflow: auto;
+}
+
+    .comments-list li {
+        list-style-type: none;
+    }
+
+.comment-input {
+    max-height: 200px;
+}
+
+.inactive {
+    background-color: gainsboro !important;
+}
+
+.reports-list li :hover {
+    cursor: zoom-in;
+}
+
+@media only screen {
+    .side-nav {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+@media only screen and (min-width: 40.063em) {
+
+    .side-nav {
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        max-height: none;
+    }
+}
+
+.side-nav li {
+    margin: 1px;
+    padding: 10px;
+    color: white;
+}
+
+.details-frame {
+    padding-left: 0;
+}

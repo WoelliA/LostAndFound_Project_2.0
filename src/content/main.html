@@ -1,26 +1,45 @@
-﻿<html>
-<body>
-
-    <div class="row" style="height:500px;">
-        <div class="column large-5 small-12">
-            <div id="map-canvas" style="width: 500px; height: 500px"></div>
-        </div>
-        <div class="column large-7 small-12" style="height:500px; overflow:auto">
-            <ul id="reports-list">
-              
-            </ul>
-        </div>
+﻿<div class="row">
+    <div class="map-canvas" style="width: 100%; height: 25rem"></div>
+</div>
+<div class="row">
+    <div class="button-group" style="width: 100%">
+        <div style="width: 49%" id="lost-button" class="button">Verlorengegangenes</div>
+        <div style="width: 49%" id="found-button" class="button">Gefundenes</div>
     </div>
-    
-    <script id="report-template" type="x-tmpl-mustache">
-        <li style="width: 100%; " data-id="{{id}}" class="th">
-            <img style="height: 140px; width: 140px;float:left; margin-right:0.8rem" src="{{imageURL}}" >
-            <h4>{{title}}</h4>
-            <p style="font-size: 0.8rem;">{{description}}</p>
-        </li>
-    </script>
+</div>
+<div class="row pagination-centered">
+    <ul class="pagination" id="pagination-frame"></ul>
+</div>
+<div class="row">
+    <ul class="side-nav column medium-2" id="item-types" role="navigation" title="Categories"></ul>
+    <div class="column medium-10">
+        
+        <ul id="reports-list" class="row reports-list"></ul>
+    </div>
+</div>
 
-    <script src="/src/views/listView.js"></script>
-    <script src="/src/views/mapView.js"></script>
-</body>
-</html>
+<script id="pagination-template" type="x-tmpl-mustache">
+    {{#.}}
+    <li data-id="{{page}}"class="{{class}}" id="{{id}}"><a>{{page}}</a></li>
+    {{/.}}
+</script>
+<script id="page-template" type="x-tmpl-mustache">
+    <li data-id="{{page}}" class="{{class}}" id="{{id}}"><a>{{page}}</a></li>
+</script>
+<script id="report-template" type="x-tmpl-mustache">
+    <li style="width: 100%; " data-id="{{id}}" class="th">
+        <img style="height: 140px; width: 140px;float:left; margin-right:0.8rem" src="{{imageURL}}">
+        <h4>{{title}}</h4>
+        <p style="font-size: 0.8rem;">{{description}}</p>
+    </li>
+</script>
+<script id="item-type-template" type="x-tmpl-mustache">
+    <li style="width: 100%;" class="button item-type" data-id="{{id}}">
+        {{name}}
+    </li>
+</script>
+
+<script src="/src/views/paginationView.js"></script>
+<script src="/src/views/listView.js"></script>
+<script src="/src/views/mapView.js"></script>
+<script src="/src/views/controlsView.js"></script>

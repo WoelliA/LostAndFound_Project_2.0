@@ -3,10 +3,10 @@
         template,
         $list,
 
-        init = function (element) {
+        init = function(element) {
             console.log("listview init");
             $list = $("#reports-list", element);
-            $("#reports-list").on('click', 'li', function (evt) {
+            $("#reports-list").on('click', 'li', function(evt) {
                 $(that).trigger("report-selected", evt.currentTarget.attributes['data-id'].value);
             });
             template = $('#report-template').html();
@@ -14,20 +14,32 @@
             return that;
         },
 
-        displayReports = function (reports) {
+        displayReports = function(reports) {
             for (var key in reports) {
                 var report = reports[key];
                 addReport(report);
             }
         },
 
-        addReport = function (report) {
+        addReport = function(report) {
             var entry = Mustache.render(template, report);
+            entry["data-id"] = report.id;
             $list.append(entry);
         },
 
         removeReports = function (reports) {
+            if (!reports) {
+                return;
+            }
 
+            for (var key in reports) {
+                var report = reports[key];
+                removeReport(report);
+            }
+        },
+
+        removeReport = function (report) {
+            $('[data-id="' + report.id + '"]', $list).remove();
         };
 
     that.removeReports = removeReports;

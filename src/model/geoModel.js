@@ -1,6 +1,6 @@
 ﻿LostAndFound.Model.GeoModel = (function () {
     var that = {},
-        initialLocation = { x: 10, y: 50 },
+        initialLocation = { lng: 10, lat: 50 },
 
         init = function () {
             return that;
@@ -17,8 +17,8 @@
             if (navigator.geolocation) {
                 browserSupportFlag = true;
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    initialLocation.x = position.coords.longitude;
-                    initialLocation.y = position.coords.latitude;
+                    initialLocation.lng = position.coords.longitude;
+                    initialLocation.lat = position.coords.latitude;
                     callback(initialLocation);
                 }, function () {
                     handleNoGeolocation(browserSupportFlag);

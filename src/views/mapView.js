@@ -5,55 +5,61 @@
 
         markers = {},
 
-        init = function (element, point) {
-            console.log("mapview init", point);
+        init = function(context, point) {
             var mapOptions = {
-                center: new google.maps.LatLng(point.y, point.x),
+                center: new google.maps.LatLng(point.lat, point.lng),
                 zoom: 11
             };
-            map = new google.maps.Map(element.getElementById("map-canvas"), mapOptions);
-            google.maps.event.addListener(map, "bounds_changed", onBoundsChanged);
+
+            var $maps = $(".map-canvas", context);
+            map = new google.maps.Map($maps[0], mapOptions);
+            google.maps.event.addListener(map, "bounds_changed", function() {
+                $(that).trigger(sectorChangedEvent);
+            });
+
+            setTimeout(function() {
+                google.maps.event.trigger(map, 'resize');
+                setCenter(point);
+            }, 100);
+
             return that;
         },
 
-        onBoundsChanged = function () {
-            var bounds = map.getBounds();
-            var longMin = bounds.getNorthEast().lng();
-            var latMin = bounds.getNorthEast().lat();
-            var longMax = bounds.getSouthWest().lng();
-            var latMax = bounds.getSouthWest().lat();
-            var sector = new LostAndFound.Model.Sector(longMin, longMax, latMin, latMax);
-            $(that).trigger(sectorChangedEvent, sector);
-        },
-
-        setCenter = function (point) {
-            var loc = new google.maps.LatLng(point.y, point.x);
+        setCenter = function(point) {
+            var loc = new google.maps.LatLng(point.lat, point.lng);
             map.setCenter(loc);
         },
 
-        addMarker = function(id, location) {
+        addMarker = function(report) {
+            var id = report.id;
+            var icon = new LostAndFound.Views.Icon(report);
+            var location = new google.maps.LatLng(report.lat, report.lng);
+
             var marker = new google.maps.Marker({
                 position: location,
-                map: map
+                map: map,
+                icon: icon
             });
+
             google.maps.event.addListener(marker, 'click', function() {
                 $(that).trigger("report-selected", id);
             });
             markers[id] = marker;
         },
 
-        displayReports = function (reports) {
-            /// <param name="reports" type="LostAndFound.Model.Report"></param>
+        displayReport = function(report) {
+            addMarker(report);
+        },
+
+        displayReports = function(reports) {
             for (var key in reports) {
                 var report = reports[key];
-                var location = new google.maps.LatLng(report.lat, report.lng);
-                console.log(location);
-                addMarker(report.id, location);
+                addMarker(report);
             }
         },
 
-        removeReports = function (reports) {
-            reports.forEach(function (report) {
+        removeReports = function(reports) {
+            reports.forEach(function(report) {
                 var key = report.id;
                 var marker = markers[key];
                 if (marker) {
@@ -61,8 +67,21 @@
                     markers[key] = null;
                 }
             });
+        },
+
+        getSector = function() {
+            var bounds = map.getBounds();
+            var longMin = bounds.getNorthEast().lng();
+            var latMin = bounds.getNorthEast().lat();
+            var longMax = bounds.getSouthWest().lng();
+            var latMax = bounds.getSouthWest().lat();
+            var sector = new LostAndFound.Model.Sector(longMin, longMax, latMin, latMax);
+            return sector;
         };
 
+
+    that.getSector = getSector;
+    that.displayReport = displayReport;
     that.removeReports = removeReports;
     that.displayReports = displayReports;
     that.init = init;
