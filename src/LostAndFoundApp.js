@@ -68,7 +68,7 @@ LostAndFound.App = (function () {
             setTimeout(function() {
                 History.pushState(null, null, "/");
 
-            }, 1000);
+            }, 0);
         },
 
     //        document.getElementById('modal-frame');
