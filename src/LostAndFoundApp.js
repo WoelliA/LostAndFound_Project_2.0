@@ -1,4 +1,5 @@
-﻿LostAndFound = {};
+﻿/// <reference path="../libs/parse_1.3.0.js" />
+LostAndFound = {};
 LostAndFound.Views = {};
 LostAndFound.Controllers = {};
 LostAndFound.Model = {};
@@ -8,7 +9,7 @@ LostAndFound.App = (function () {
 
     var that = {},
 
-        isRelease = false,
+        isRelease = true,
 
         init = function () {
             $.ajaxSetup({
@@ -17,7 +18,7 @@ LostAndFound.App = (function () {
             initPresenter();
         },
 
-        initPresenter = function() {
+        initPresenter = function () {
 
             var frame = document.getElementById("frame");
             var context = document.getElementById("content");
@@ -51,17 +52,30 @@ LostAndFound.App = (function () {
 
             var modal = new Presenting.FoundationModal(document.getElementById("modal"), document.getElementById("modal-frame"));
             var modalPresenter = new Presenting.ModalPresenter(modal, settings, routing);
-            routing.addRoute("report/{0}", function (id) {
+
+            routing.addRoute("/report/{0}", function (id) {
                 modalPresenter.show("report", id);
             });
 
-            LostAndFound.Presenter.show("main");
+            routing.addRoute("{0}/{1}", function (one, two) {
+                console.log("assroute", one, two);
+            });
+
+            routing.addRoute("/", function () {
+                console.log("empty hash");
+                LostAndFound.Presenter.show("main");
+            });
+            setTimeout(function() {
+                History.pushState(null, null, "/");
+
+            }, 1000);
         },
-        
+
     //        document.getElementById('modal-frame');
     //document.getElementById('modal');
-        createModelParameters = function() {            
+        createModelParameters = function () {
             if (isRelease) {
+                Parse.initialize("5JwuXWVknlw1PjJugdSbqDUcXncTeEyXOKpdRNgA", "VDnCiH0qZW94SGyBU4fHeVMKZDKaSOnvgMQD2Vpb");
                 return LostAndFound.Model;
 
             } else {

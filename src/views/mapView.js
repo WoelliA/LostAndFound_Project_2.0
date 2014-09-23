@@ -2,14 +2,17 @@
     var that = {},
         sectorChangedEvent = "sector_changed",
         map,
-
+        loc,
         markers = {},
 
         init = function(context, point) {
             var mapOptions = {
-                center: new google.maps.LatLng(point.lat, point.lng),
                 zoom: 11
             };
+
+            if (point) {
+                mapOptions.center = new google.maps.LatLng(point.lat, point.lng);
+            }
 
             var $maps = $(".map-canvas", context);
             map = new google.maps.Map($maps[0], mapOptions);
@@ -19,14 +22,14 @@
 
             setTimeout(function() {
                 google.maps.event.trigger(map, 'resize');
-                setCenter(point);
-            }, 100);
+                map.setCenter(point);
+            }, 200);
 
             return that;
         },
 
         setCenter = function(point) {
-            var loc = new google.maps.LatLng(point.lat, point.lng);
+            loc = new google.maps.LatLng(point.lat, point.lng);
             map.setCenter(loc);
         },
 
@@ -58,7 +61,11 @@
             }
         },
 
-        removeReports = function(reports) {
+        removeReports = function (reports) {
+            if (!reports) {
+                return;
+            }
+            console.log(markers);
             reports.forEach(function(report) {
                 var key = report.id;
                 var marker = markers[key];

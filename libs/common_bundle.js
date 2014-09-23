@@ -201,12 +201,12 @@ var Presenting;
             var _this = this;
             this.historyjs = History;
             this.routes = {};
+            this.skipParse = false;
             this.hashBackStack = new Array();
             this.historyjs.Adapter.bind(window, 'statechange', function () {
-                return _this.onHashChange();
+                _this.onHashChange();
             });
             this.goBackRequested = new Event();
-            this.onHashChange();
         }
         Routing.prototype.addRoute = function (path, callback) {
             var _this = this;
@@ -229,7 +229,9 @@ var Presenting;
             crossroads.parse(url);
         };
 
-        Routing.prototype.goback = function () {
+        Routing.prototype.goback = function (skipParse) {
+            console.log("going back. skipping?", skipParse);
+            this.skipParse = skipParse;
             this.historyjs.back();
         };
 
@@ -240,24 +242,35 @@ var Presenting;
             console.log("History STATE", state);
 
             if (state.hash) {
+                if (state.hash.indexOf('.html') > 0) {
+                    return;
+                }
                 var hash = state.hash.replace(".", "");
                 hash = hash.replace("//", "/");
                 hash = hash.replace("#", "");
-
+                var o = {
+                    handled: false,
+                    hash: hash
+                };
                 if (this.hashBackStack.length > 1) {
                     var previoushash = this.hashBackStack[this.hashBackStack.length - 2];
                     if (previoushash == hash) {
                         console.log("routing gone back");
                         this.hashBackStack.pop();
                         this.hashBackStack.pop();
-                        this.goBackRequested.dispatch(hash);
+                        this.goBackRequested.dispatch(o);
                     }
                 } else {
                 }
-
+                if (this.skipParse) {
+                    console.log("skipping route parsing");
+                    this.skipParse = false;
+                    crossroads.resetState();
+                } else if (!o.handled) {
+                    this.parse(hash);
+                }
                 this.hashBackStack.push(hash);
-                console.log(this.hashBackStack);
-                this.parse(hash);
+                console.log("", this.historyjs);
             } else {
                 console.error("History state has no hash");
             }
@@ -614,16 +627,15 @@ var Presenting;
             this.modal = modal;
             this.frame = modal.frame;
 
-            routing.goBackRequested.add(function (s) {
-                console.log("modalpresenter.routing.gobackrequsted", _this.modal.isOpen);
-                if (_this.modal.isOpen)
+            routing.goBackRequested.add(function (o) {
+                if (_this.modal.isOpen) {
+                    o.handled = true;
                     _this.modal.hide();
+                }
             });
-            this.modal.statechanged.add(function (p) {
-                console.log("modalpresenter.modal.statechanged", p.isopen);
-                _this.modal.isOpen = p.isopen;
-                if (!p.isopen)
-                    routing.goback();
+            this.modal.statechanged.add(function (args) {
+                if (!args.isopen)
+                    routing.goback(true);
             });
         }
         ModalPresenter.prototype.show = function (target, parameter, callback) {
@@ -641,12 +653,16 @@ var Presenting;
             this.frame = frame;
             this.$modal = $(modal);
             $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
-                _this.isOpen = true;
-                _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(true));
+                if (!_this.isOpen) {
+                    _this.isOpen = true;
+                    _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(true));
+                }
             });
             $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-                _this.isOpen = false;
-                _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(false));
+                if (_this.isOpen) {
+                    _this.isOpen = false;
+                    _this.statechanged.dispatch(new Presenting.ModalStateChangedEventArgs(false));
+                }
             });
         }
         FoundationModal.prototype.show = function () {

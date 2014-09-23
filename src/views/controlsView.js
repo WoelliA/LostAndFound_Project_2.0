@@ -49,14 +49,20 @@
 
         displayItemTypes = function(types) {
             $itemTypesList.empty();
-            for (var key in types) {
-                var t = types[key];
-                addItemType(t);
+            for (var index in types) {
+                var t = types[index];
+                addItemType(t, index);
             }
+            $itemTypesList.children().each(function (i) {
+                if (i > 2) {
+                    $(this).addClass('inactive');
+                }
+            });
         },
 
         addItemType = function(t) {
             var entry = Mustache.render(itemTypeTemplate, t);
+            
             $itemTypesList.append(entry);
         },
 

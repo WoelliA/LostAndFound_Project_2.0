@@ -1,5 +1,5 @@
 ﻿LostAndFound.Model.Dummy.Config = {
-    delay: 1,
+    delay: 1000,
     itemTypes: {
         0: "backpack",
         1: "bike",

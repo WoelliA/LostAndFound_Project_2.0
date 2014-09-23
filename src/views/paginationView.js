@@ -12,42 +12,56 @@
         },
 
         initPagination = function (context) {
-            $pagination = $("#pagination-frame", context);
-            $pagination.on('click', 'li', function (evt) {
-                console.log("pagination click");
-                $pagination.children().each(function (i) {
-                    console.log("paginationframe");
-                    $(this).removeClass('current');
-                });
-                var $target = $(evt.currentTarget);
-                $target.addClass('current');
-                selectedPage = $target.text();
-                console.log(selectedPage);
-                adjust();
-            });
+            $pagination = $(".pagination", context);
+            $pagination.on('click', 'li', onPageClick);
             pageTemplate = $('#page-template', context).html();
             paginationTemplate = $("#pagination-template", context).html();
             Mustache.parse(pageTemplate);
             Mustache.parse(paginationTemplate);
         },
 
+
+        onPageClick = function (evt) {
+            var $target = $(evt.currentTarget);
+            if ($target.hasClass('current')) {
+                return;
+            }
+
+            selectedPage = $target.text();
+            $(that).trigger('page-changed');
+
+            $pagination.children().each(function (i) {
+                console.log("paginationframe");
+                $(this).removeClass('current');
+            });
+
+            var $samePages = $('[data-id=' + $target.attr('data-id') + ']', $pagination);
+            $samePages.addClass('current');
+
+            adjust();
+        },
+
         maxLeft,
-        adjust = function() {
-            if (selectedPage >= maxLeft -1) {
+        adjust = function () {
+            if (selectedPage >= maxLeft - 1) {
                 maxLeft++;
-                var page = {page: maxLeft};
+                var page = { page: maxLeft };
                 var pageEntry = Mustache.render(pageTemplate, page);
                 $('#pag-ellips').before(pageEntry);
             }
         },
 
-        reset = function() {
+        reset = function () {
             maxLeft = 3;
         },
 
         setupPagination = function (resultCount) {
             reset();
             var pageCount = resultCount / getPageSize();
+            while (selectedPage > pageCount +1) {
+                console.log(selectedPage, pageCount);
+                selectedPage--;
+            }
             var pages = [];
             for (var i = 0; i < pageCount; i++) {
                 var page = { page: i + 1 };
@@ -62,8 +76,13 @@
                         }
                     }
                 }
-                
-                if (page.page == 1) {
+                console.log(selectedPage);
+                if (selectedPage) {
+                    if (page.page == selectedPage) {
+                        page.class = 'current';
+                    }
+                }
+                else if (page.page == 1) {
                     page.class = 'current';
                     selectedPage = 1;
                 }

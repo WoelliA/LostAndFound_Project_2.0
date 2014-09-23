@@ -94,7 +94,7 @@ LostAndFound.Model.Dummy.UserModel = (function () {
 }());
 ///#source 1 1 /src/model/dummy/config.js
 LostAndFound.Model.Dummy.Config = {
-    delay: 1,
+    delay: 1000,
     itemTypes: {
         0: "backpack",
         1: "bike",
@@ -123,11 +123,23 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
             return that;
         },
 
+        saveReport = function(report, callback) {
+            setTimeout(function () {
+                console.log("dummy save report done");
+                callback.success();
+            }, LostAndFound.Model.Dummy.Config.delay);
+        },
+
         getReport = function(reportId, callback) {
             setTimeout(function() {
                 callback(allReports[reportId]);
             }, LostAndFound.Model.Dummy.Config.delay);
+        },
 
+        getReportsCount = function(request, callbackObject) {
+            setTimeout(function () {
+                callbackObject.success(21);
+            }, LostAndFound.Model.Dummy.Config.delay);
         },
 
         getReports = function (request, callback) {
@@ -136,7 +148,7 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
             setTimeout(function () {
                 var oldReports = reports;
                 reports =[];
-                for (var i = 0; i < 20; i++) {
+                for (var i = 0; i < request.pageSize; i++) {
                     var report = new LostAndFound.Model.Dummy.DummyReport(i, request);
                     allReports[report.id] = report;
                     reports.push(report);
@@ -145,6 +157,8 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
             }, LostAndFound.Model.Dummy.Config.delay);
         };
 
+    that.getReportsCount = getReportsCount;
+    that.saveReport = saveReport;
     that.getReport = getReport;
     that.getReports = getReports;
     that.init = init;
@@ -183,23 +197,33 @@ LostAndFound.Model.Dummy.CommentsModel = (function () {
 LostAndFound.Model.Dummy.ConfigModel = (function () {
     var that = {},
 
-        init = function() {
+         types,
 
+        init = function () {
             return that;
         },
 
-        getItemTypes = function(callback) {
+        getItemTypeForId = function (id) {
+            return types[id];
+        },
+
+        getItemTypes = function (callback) {
             setTimeout(function () {
-                var types = [];
                 var config = LostAndFound.Model.Dummy.Config;
-                for (var i = 0; i < config.itemTypeLength; i++) {
-                    var type = new LostAndFound.Model.ItemType(i, config.itemTypes[i]);
-                    types.push(type);
+                if (!types) {
+                    types = [];
+
+                    for (var i = 0; i < config.itemTypeLength; i++) {
+                        var name = config.itemTypes[i];
+                        var type = new LostAndFound.Model.ItemType(i, name,name);
+                        types[i] = type;
+                    }
                 }
                 callback(types);
             }, LostAndFound.Model.Dummy.Config.delay);
         };
 
+    that.getItemTypeForId = getItemTypeForId;
     that.getItemTypes = getItemTypes;
     that.init = init;
     return that;

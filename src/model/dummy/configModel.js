@@ -1,23 +1,33 @@
 ﻿LostAndFound.Model.Dummy.ConfigModel = (function () {
     var that = {},
 
-        init = function() {
+         types,
 
+        init = function () {
             return that;
         },
 
-        getItemTypes = function(callback) {
+        getItemTypeForId = function (id) {
+            return types[id];
+        },
+
+        getItemTypes = function (callback) {
             setTimeout(function () {
-                var types = [];
                 var config = LostAndFound.Model.Dummy.Config;
-                for (var i = 0; i < config.itemTypeLength; i++) {
-                    var type = new LostAndFound.Model.ItemType(i, config.itemTypes[i]);
-                    types.push(type);
+                if (!types) {
+                    types = [];
+
+                    for (var i = 0; i < config.itemTypeLength; i++) {
+                        var name = config.itemTypes[i];
+                        var type = new LostAndFound.Model.ItemType(i, name,name);
+                        types[i] = type;
+                    }
                 }
                 callback(types);
             }, LostAndFound.Model.Dummy.Config.delay);
         };
 
+    that.getItemTypeForId = getItemTypeForId;
     that.getItemTypes = getItemTypes;
     that.init = init;
     return that;

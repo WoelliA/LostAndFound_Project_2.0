@@ -1,0 +1,85 @@
+﻿<!--Formular für Anzeigen-->
+
+<form data-abide="ajax" id="report-form" class="row submit-report-content">
+    <div class="map-canvas"></div>
+
+    <div class="row type-select">
+        <div id="lost-button" class="button">Verloren</div>
+        <div id="found-button" class="button">Gefunden</div>
+    </div>
+
+    <div class="row">
+        <div class="column medium-4">
+            <label for="category-select" data-found="Was hast du gefunden?"
+                   data-lost='Was hast du verloren?'>
+                Was hast du verloren?
+            </label>
+            <select id="category-select" ></select>
+        </div>
+        <div class="column medium-4">
+            <label for="date-input" data-found="Wann hast du es gefunden?"
+                   data-lost="Wann hast du es verloren?">
+                Wann hast du es verloren?
+            </label>
+            <input id="date-input" type="date" />
+        </div>
+        <div class="column medium-4">
+            <div>
+                <div style="float:left">
+                    <label for="report-reward" data-found="Was stellst du dir als Finderlohn vor?"
+                           data-lost="Was würdest du dem Finder zahlen?">
+                        Was würdest du dem Finder zahlen?
+                    </label>
+                    <input type="number" id="report-reward" placeholder="Finderlohn" />
+                </div>
+                <h3 style="margin-top: 1rem; margin-left: 1rem; float:left">€</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column medium-8">
+            <label>
+                Titel
+                <input type="text" required id="report-title" placeholder="Wähle einen Titel für deinen Bericht." />
+            </label>
+            <div>
+                <label>
+                    Beschreibung
+                    <textarea id="report-description" placeholder="Beschreibung"></textarea>
+                </label>
+            </div>
+            <div>
+                <h3 class="subheader">Kontakt</h3>
+            </div>
+            <div class="row">
+                <label class="column medium-6">
+                    Email
+                    <input id="contact-email" type="email" placeholder="Email" />
+                </label>
+                <label class="column medium-6">
+                    Telefon
+                    <input id="contact-phone" type="tel" placeholder="Telefonnummer" />
+                </label>
+            </div>
+            <button type="submit" class="button submit-button">Absenden</button>
+        </div>
+        <div class="column medium-4">
+            <input style="display: none" type="file" accept="image/*" id="file-input">
+            <div class="button" id="upload-image" style="width: 100%; top:20px">Bild hochladen</div>
+            <div id="preview" class="th hidden"></div>
+        </div>
+    </div>
+</form>
+
+
+<script id="category-options-template" type="x-tmpl-mustache">
+    {{#.}}
+    <option value="{{id}}">
+        {{name_single}}
+    </option>
+    {{/.}}
+</script>
+<script src="/src/views/controlsView.js"></script>
+<script src="/src/views/submitReportView.js"></script>
+<script src="/src/views/submitReportMapView.js"></script>

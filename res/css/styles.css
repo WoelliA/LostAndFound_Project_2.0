@@ -1,4 +1,6 @@
-
+.content {
+    margin-top: 2rem;
+}
 
 ul {
     margin-left: 0;
@@ -18,12 +20,28 @@ ul {
 }
 
 .inactive {
-    background-color: gainsboro !important;
+    background-color: #808080 !important;
 }
 
-.reports-list li :hover {
-    cursor: zoom-in;
+.reports-list {
+    padding-left: 0.5rem;
 }
+
+    .reports-list li {
+        margin: 0.3rem;
+    }
+
+        .reports-list li :hover {
+            cursor: zoom-in;
+        }
+
+    .reports-list :first-child {
+        margin-top: 0 !important;
+    }
+
+    .reports-list :last-child {
+        margin-bottom: 0 !important;
+    }
 
 @media only screen {
     .side-nav {
@@ -51,4 +69,56 @@ ul {
 
 .details-frame {
     padding-left: 0;
+}
+
+.reveal-modal {
+    padding: 0;
+}
+
+.report-details-content {
+    padding: 1.4rem;
+}
+
+.submit-report-content .map-canvas {
+    height: 300px;
+}
+
+.submit-report-content .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.type-select {
+    height: 4rem;
+    position: relative;
+}
+
+    .type-select > div {
+        position: absolute;
+    }
+
+    .type-select :first-child {
+        left: 0;
+        right: 50%;
+    }
+
+    .type-select :last-child {
+        right: 0;
+        left: 50%;
+    }
+
+.submit-button {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+#spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }

@@ -1,6 +1,10 @@
 ﻿LostAndFound.Views.Icon = function (report) {
     /// <param name="report" type="LostAndFound.Model.Report"></param>
-    this.url = "/res/images/mapicons/" + report.getCategoryName() + "_" + report.getType() + ".png";
 
-    this.size = new google.maps.Size(48,60);
+    var itemType = report.getCategoryName();
+    var reportType = report.getType();
+
+    this.url = "/res/images/mapicons/" + itemType + "_" + reportType + ".png";
+
+    this.size = new google.maps.Size(48, 60);
 };
