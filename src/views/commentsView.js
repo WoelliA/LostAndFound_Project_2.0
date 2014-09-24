@@ -3,28 +3,29 @@
         $list,
         template,
 
-        init = function(context) {
+        init = function (context) {
             console.log("LoginView init");
-            initList(context);
-            initInput(context);
+            // obsolete with facebook comments
+            // initList(context);
+            // initInput(context);
             return that;
         },
 
-        initList = function(context) {
+        initList = function (context) {
             $list = $(".comments-list", context);
             template = $('#comment-template').html();
             Mustache.parse(template);
         },
 
-        initInput = function(context) {
+        initInput = function (context) {
             var $input = $("#comment-input");
-            $("#submit-comment", context).on('click', function() {
+            $("#submit-comment", context).on('click', function () {
                 var text = $input.val();
                 $(that).trigger("comment-submit", text);
             });
         },
 
-        addDisplayComments = function(comments) {
+        addDisplayComments = function (comments) {
             if (!comments)
                 return;
 
@@ -34,7 +35,7 @@
             }
         },
 
-        addDisplayComment = function(comment) {
+        addDisplayComment = function (comment) {
             /// <param name="comment" type="LostAndFound.Model.Comment"></param>
             var entry = Mustache.render(template, comment);
             $list.append(entry);

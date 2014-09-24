@@ -1,6 +1,6 @@
 ﻿<!--Formular für Anzeigen-->
-
-<form data-abide="ajax" id="report-form" class="row submit-report-content">
+<title>Anzeige aufgeben</title>
+<form data-abide="ajax" id="report-form" class="row content submit-report-content">
     <div class="map-canvas"></div>
 
     <div class="row type-select">
@@ -14,7 +14,7 @@
                    data-lost='Was hast du verloren?'>
                 Was hast du verloren?
             </label>
-            <select id="category-select" ></select>
+            <select id="category-select"></select>
         </div>
         <div class="column medium-4">
             <label for="date-input" data-found="Wann hast du es gefunden?"
@@ -46,20 +46,16 @@
             <div>
                 <label>
                     Beschreibung
-                    <textarea id="report-description" placeholder="Beschreibung"></textarea>
+                    <textarea id="report-description" class="description-input" placeholder="Beschreibung"></textarea>
                 </label>
             </div>
             <div>
                 <h3 class="subheader">Kontakt</h3>
             </div>
-            <div class="row">
+            <div>
                 <label class="column medium-6">
                     Email
                     <input id="contact-email" type="email" placeholder="Email" />
-                </label>
-                <label class="column medium-6">
-                    Telefon
-                    <input id="contact-phone" type="tel" placeholder="Telefonnummer" />
                 </label>
             </div>
             <button type="submit" class="button submit-button">Absenden</button>

@@ -534,7 +534,7 @@ var Presenting;
             var _this = this;
             this.htmlLoader.onLoadingFinished = function (content) {
                 $(_this.frame).html(content);
-                _this.onContentLoaded(parameter);
+                _this.onContentLoaded($(_this.frame), parameter);
             };
 
             var request = new PresentationRequest(target, parameter, this.htmlLoader, this.loaders);
@@ -546,13 +546,14 @@ var Presenting;
             request.execute();
         };
 
-        Presenter.prototype.onContentLoaded = function (parameter) {
+        Presenter.prototype.onContentLoaded = function (content, parameter) {
             var _this = this;
+            console.log("oncontentloaded", content);
             if (this.contentListeners == null) {
                 return;
             }
             this.contentListeners.forEach(function (listener) {
-                listener.onContentLoaded(_this, parameter);
+                listener.onContentLoaded(_this, content, parameter);
             });
         };
         return Presenter;
@@ -562,7 +563,7 @@ var Presenting;
     var DataContentListener = (function () {
         function DataContentListener() {
         }
-        DataContentListener.prototype.onContentLoaded = function (presenter, parameter) {
+        DataContentListener.prototype.onContentLoaded = function (presenter, content, parameter) {
             var dataDefers = NodeHelper.getAllElementsWithAttribute(presenter.getFrame(), "data-defer");
 
             if (dataDefers) {
@@ -590,13 +591,30 @@ var Presenting;
     })();
     Presenting.DataContentListener = DataContentListener;
 
+    var TitleSettingContentListener = (function () {
+        function TitleSettingContentListener() {
+        }
+        TitleSettingContentListener.prototype.onContentLoaded = function (presenter, content, parameter) {
+            var titleEls = $("title", content);
+            console.log("title elements", titleEls);
+            if (titleEls) {
+                var el = titleEls[0];
+                if (el) {
+                    document.title = el.innerText;
+                }
+            }
+        };
+        return TitleSettingContentListener;
+    })();
+    Presenting.TitleSettingContentListener = TitleSettingContentListener;
+
     var MainPresenter = (function (_super) {
         __extends(MainPresenter, _super);
         function MainPresenter(settings, context) {
             var _this = this;
             _super.call(this, settings);
             this.context = context;
-            this.onContentLoaded(this);
+            this.onContentLoaded(this, context);
             this.routing = new Presenting.Routing();
 
             $(this.routing).on(Presenting.Routing.routeParsed, function (event) {

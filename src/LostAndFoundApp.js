@@ -28,6 +28,7 @@ LostAndFound.App = (function () {
             var viewLoaderSettings = Presenting.ViewLoader.getDefaultSettings(root);
             var viewLoader = new Presenting.ViewLoader(viewLoaderSettings);
             loaders.push(viewLoader);
+            
 
             var modelParameters = createModelParameters();
             console.log("model parameters", modelParameters);
@@ -40,11 +41,14 @@ LostAndFound.App = (function () {
             var htmlLoaderSettings = Presenting.HtmlLoader.getDefaultSettings(root);
             var htmlLoader = new Presenting.ViewLoader(htmlLoaderSettings);
 
+            var contentListeners = [];
+            contentListeners.push(new Presenting.TitleSettingContentListener());
             var settings = {
                 origin: root,
                 frame: frame,
                 htmlLoader: htmlLoader,
-                loaders: loaders
+                loaders: loaders,
+                contentListeners: contentListeners
             };
 
             LostAndFound.Presenter = new Presenting.MainPresenter(settings, context);

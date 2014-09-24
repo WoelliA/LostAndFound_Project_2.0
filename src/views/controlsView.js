@@ -53,11 +53,6 @@
                 var t = types[index];
                 addItemType(t, index);
             }
-            $itemTypesList.children().each(function (i) {
-                if (i > 2) {
-                    $(this).addClass('inactive');
-                }
-            });
         },
 
         addItemType = function(t) {

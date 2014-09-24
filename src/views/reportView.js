@@ -2,22 +2,24 @@
     var that = {},
         reportTemplate,
         $detailsFrame,
-        $commentsList,
 
         init = function (element) {
             element = element || document;
 
             reportTemplate = $('#report-detail-template').html();
             Mustache.parse(reportTemplate);
-
             $detailsFrame = $("#details-frame", element);
-            $commentsList = $("#comments-list", element);
+
+            $('.facebook-control').attr('data-href', window.location);
+            FB.XFBML.parse();
             return that;
         },
 
         displayReport = function (report) {
             var entry = Mustache.render(reportTemplate, report);
-            $detailsFrame.html(entry);
+            $detailsFrame.html(entry); 
+
+            FB.XFBML.parse(document.getElementById('details-frame'));
         };
 
     that.displayReport = displayReport;
