@@ -12,14 +12,27 @@
     this.email ;
     this.phoneNumber;
 
+    this.getImage = function () {
+        var image = this.imageURL || "/res/images/placeholders/" + this.category.shortname + ".png";
+        return image;
+    };
+
+    this.getShareText = function() {
+        var text = this.title;
+        if (this.description) {
+            text += " - " + this.description;
+        }
+        return text;
+    };
+
     this.getCategoryName = function () {
         if (this.category) {
             return this.category.shortname;
         }
         return undefined;
-    }
+    };
 
-    this.getType = function() {
+    this.getType = function () {
         return this.type;
-    }
+    };
 }

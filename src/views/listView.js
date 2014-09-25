@@ -4,7 +4,6 @@
         $list,
 
         init = function(element) {
-            console.log("listview init");
             $list = $("#reports-list", element);
             $("#reports-list").on('click', 'li', function(evt) {
                 $(that).trigger("report-selected", evt.currentTarget.attributes['data-id'].value);
@@ -38,10 +37,15 @@
             }
         },
 
+        clear = function() {
+            $list.html("");
+        },
+
         removeReport = function (report) {
             $('[data-id="' + report.id + '"]', $list).remove();
         };
 
+    that.clear = clear;
     that.removeReports = removeReports;
     that.displayReports = displayReports;
     that.init = init;

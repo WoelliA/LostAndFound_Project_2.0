@@ -652,12 +652,23 @@ var Presenting;
                 }
             });
             this.modal.statechanged.add(function (args) {
-                if (!args.isopen)
-                    routing.goback(true);
+                if (!args.isopen) {
+                    if (_this.modal.affectsHash) {
+                        routing.goback(true);
+                    }
+                    _this.modal.affectsHash = true;
+                }
             });
         }
+        ModalPresenter.prototype.showWithoutLocation = function (target, parameter, callback) {
+            this.modal.show();
+            this.modal.affectsHash = false;
+            _super.prototype.show.call(this, target, parameter, callback);
+        };
+
         ModalPresenter.prototype.show = function (target, parameter, callback) {
             this.modal.show();
+            this.modal.affectsHash = true;
             _super.prototype.show.call(this, target, parameter, callback);
         };
         return ModalPresenter;

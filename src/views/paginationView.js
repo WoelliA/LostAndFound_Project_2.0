@@ -6,7 +6,6 @@
         selectedPage,
 
         init = function (context) {
-            console.log("LoginView init");
             initPagination(context);
             return that;
         },
@@ -31,7 +30,6 @@
             $(that).trigger('page-changed');
 
             $pagination.children().each(function (i) {
-                console.log("paginationframe");
                 $(this).removeClass('current');
             });
 
@@ -59,7 +57,6 @@
             reset();
             var pageCount = resultCount / getPageSize();
             while (selectedPage > pageCount +1) {
-                console.log(selectedPage, pageCount);
                 selectedPage--;
             }
             var pages = [];
@@ -76,7 +73,6 @@
                         }
                     }
                 }
-                console.log(selectedPage);
                 if (selectedPage) {
                     if (page.page == selectedPage) {
                         page.class = 'current';
@@ -93,7 +89,7 @@
         },
 
         getPage = function () {
-            return 1;
+            return selectedPage;
         },
 
         getPageSize = function () {

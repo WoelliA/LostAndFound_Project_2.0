@@ -63,7 +63,7 @@
         },
 
         adjustLabels = function (type) {
-            $("label").each(function (label) {
+            $(".submit-hint").each(function (label) {
                 var attribute = $(this).attr("data-" + type);
                 if (attribute) {
                     $(this).text(attribute);

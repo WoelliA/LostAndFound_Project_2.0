@@ -69,14 +69,26 @@
                     selectedTypes.push($entry.attr("data-id"));
                 }
             });
-            console.log(selectedTypes);
             return selectedTypes;
+        },
+
+        setSelectedItemTypes = function (selectedCategoriesIds) {
+            $itemTypesList.children('.item-type').each(function(i) {
+                var $entry = $(this);
+                var entryId = $entry.attr("data-id");
+                if (selectedCategoriesIds.indexOf(entryId) > 0) {
+                    $entry.removeClass('inactive');
+                } else {
+                    $entry.addClass('inactive');
+                }
+            });
         },
 
         getSelectedType = function() {
             return type;
         };
 
+    that.setSelectedItemTypes = setSelectedItemTypes;
     that.getSelectedItemTypes = getSelectedItemTypes;
     that.displayItemTypes = displayItemTypes;
     that.getSelectedType = getSelectedType;

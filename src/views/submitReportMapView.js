@@ -27,6 +27,7 @@
                         lat: latLng.lat(),
                         lng: latLng.lng()
                     };
+                    $('.set-location-hint').addClass("hidden");
                 }
             });
             return that;

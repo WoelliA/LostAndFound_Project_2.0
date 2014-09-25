@@ -8,11 +8,12 @@ LostAndFound.Controllers.MainController = (function () {
         resultViews = [],
         controlsView,
         paginationView,
+        lastresults,
 
-        init = function(args) {
+        init = function (args) {
             model = args.ReportsModel.init();
+            lastresults = null;
 
-            console.log("maincontroller init", LostAndFound.Views, args);
             var views = LostAndFound.Views;
 
             controlsView = views.ControlsView.init(args.frame);
@@ -24,74 +25,101 @@ LostAndFound.Controllers.MainController = (function () {
             resultViews.push(listView);
             resultViews.push(mapView);
 
-            args.GeoModel.getCurrentLocation(function(p) {
+            args.GeoModel.getCurrentLocation(function (p) {
                 mapView.setCenter(p);
             });
 
-            args.ConfigModel.init().getItemTypes(function(types) {
+            args.ConfigModel.init().getItemTypes(function (types) {
                 controlsView.displayItemTypes(types);
+                if (localStorage["selected-categories-ids"]) {
+                    controlsView.setSelectedItemTypes(localStorage["selected-categories-ids"]);
+                }
+                kickOffReset();
+                attachListeners();
             });
-
-            attachListeners();
             return that;
         },
 
-        attachListeners = function() {
+        attachListeners = function () {
             $(mapView).on("sector_changed", kickOffReset);
             $(mapView).on("report-selected", onReportSelected);
             $(listView).on("report-selected", onReportSelected);
-            $(controlsView).on("type-changed", reset);
-            $(controlsView).on("item-types-changed", kickOffReset);
+            $(controlsView).on("type-changed", function () {
+                resultViews.forEach(function (view) {
+                    if (view.clear)
+                        view.clear();
+                });
+                reset();
+            });
+            $(controlsView).on("item-types-changed", function () {
+                var selectedCategories = controlsView.getSelectedItemTypes();
+                localStorage["selected-categories-ids"] = selectedCategories;
+                kickOffReset();
+            });
             $(paginationView).on("page-changed", reset);
         },
 
-        onReportSelected = function(evt, reportId) {
-            //window.location.hash = "#/report/" + reportId;
+        onReportSelected = function (evt, reportId) {
             History.pushState(null, null, "/report/" + reportId);
-            console.log(reportId);
         },
 
-        kickOffReset = function() {
-            console.log("kickoff");
+        kickOffReset = function () {
             if (settleTimeoutId) {
                 clearTimeout(settleTimeoutId);
                 settleTimeoutId = null;
             }
-            settleTimeoutId = setTimeout(function() {
+            settleTimeoutId = setTimeout(function () {
                 reset();
             }, 500);
         },
 
-        pageResults = function() {
-            getResults();
-        },
-        lastresults,
         getResults = function () {
-            console.log("getresults");
             var sector = mapView.getSector();
             var type = controlsView.getSelectedType();
             var itemTypes = controlsView.getSelectedItemTypes();
             var pageSize = paginationView.getPageSize();
             var page = paginationView.getPage();
-            var offset = pageSize * (page -1);
+            var offset = pageSize * (page - 1);
+            console.log("PAGE; OFFSET", page, offset);
             var request = new LostAndFound.Model.ReportsRequest(sector, type, itemTypes, offset, pageSize);
 
-            model.getReports(request, function (newResults, removedResults) {
+            model.getReports(request, function (newResults) {
                 settleTimeoutId = null;
-                // untill there is some sophisticated filtering
-                removedResults = lastresults;
-                lastresults = newResults;
-                // 
-                for (var key in resultViews) {
-                    resultViews[key].removeReports(removedResults);
-                    resultViews[key].displayReports(newResults);
+                var trulyNewResults = newResults;
+                if (lastresults) {
+                    trulyNewResults = processResults(newResults, lastresults);
                 }
+                for (var key in resultViews) {
+                    resultViews[key].removeReports(lastresults);
+                    resultViews[key].displayReports(trulyNewResults);
+                }
+                lastresults = newResults;
             });
             return request;
         },
 
+        processResults = function (newResults) {
+            var trulyNewResults = [];
+            for (var ni in newResults) {
+                var report = newResults[ni];
+                var found = false;
+                for (var oi in lastresults) {
+                    var oldReport = lastresults[oi];
+                    if (oldReport.id == report.id) {
+                        lastresults.splice(oi, 1);
+
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    trulyNewResults.push(report);
+                }
+            }
+            return trulyNewResults;
+        },
+
         reset = function () {
-            console.log("reset");
             var request = getResults();
             model.getReportsCount(request, {
                 success: function (count) {

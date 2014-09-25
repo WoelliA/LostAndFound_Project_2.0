@@ -46,21 +46,25 @@
             map.setCenter(loc);
         },
 
-        addMarker = function (report) {
+        addMarker = function (report, i) {
             var id = report.id;
             var icon = new LostAndFound.Views.Icon(report);
             var location = new google.maps.LatLng(report.lat, report.lng);
 
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                icon: icon
-            });
-
-            google.maps.event.addListener(marker, 'click', function () {
-                $(that).trigger("report-selected", id);
-            });
-            markers[id] = marker;
+            if (!i)
+                i = 1;
+            setTimeout(function () {
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    icon: icon,
+                    animation: google.maps.Animation.DROP
+                });
+                markers[id] = marker;
+                google.maps.event.addListener(marker, 'click', function () {
+                    $(that).trigger("report-selected", id);
+                });
+            }, i * 100);
         },
 
         displayReport = function (report) {
@@ -68,9 +72,9 @@
         },
 
         displayReports = function (reports) {
-            for (var key in reports) {
-                var report = reports[key];
-                addMarker(report);
+            for (var index in reports) {
+                var report = reports[index];
+                addMarker(report, index);
             }
         },
 
@@ -78,15 +82,26 @@
             if (!reports) {
                 return;
             }
-            console.log(markers);
             reports.forEach(function (report) {
                 var key = report.id;
+                removeMarker(key);
+            });
+        },
+
+        removeMarker = function (key) {
+            if (key) {
                 var marker = markers[key];
                 if (marker) {
                     marker.setMap(null);
                     markers[key] = null;
                 }
-            });
+            }
+        },
+
+        clear = function () {
+            for (var key in markers) {
+                removeMarker(key);
+            }
         },
 
         getSector = function () {
@@ -99,7 +114,7 @@
             return sector;
         };
 
-
+    that.clear = clear;
     that.getSector = getSector;
     that.displayReport = displayReport;
     that.removeReports = removeReports;

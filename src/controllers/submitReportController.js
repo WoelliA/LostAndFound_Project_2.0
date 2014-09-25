@@ -25,11 +25,13 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 report.getCategoryName = function () { return undefined; };
                 mapView.setup(report);
             });
+
             configModel = args.ConfigModel.init();
             configModel.getItemTypes(function (categories) {
                 submitView.setCategories(categories);
             });
-
+            
+            submitView.adjustLabels(controlsView.getSelectedType());
 
             attachListeners();
 
@@ -78,7 +80,8 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             console.log(report);
             loadingView.show();
             reportsModel.saveReport(report, {
-                success: function () {
+                success: function (r) {
+                    onReportSaved(r);
                     loadingView.hide();
                 },
                 error: function() {
@@ -86,6 +89,27 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 }
             });
         },
+
+        onReportSaved = function(report) {
+            console.log("onreportcreatedd", report);
+            saveReportLocally(report);
+            var parameters = {};
+            parameters.url = window.location.origin + "/report/" + report.id;
+            parameters.text = report.getShareText();
+            LostAndFound.ModalPresenter.showWithoutLocation("share", parameters);
+        },
+
+        saveReportLocally = function (report) {
+            var key = "users-reports";
+            var reports = [];
+            if (localStorage[key]) {
+                reports = JSON.parse(localStorage.getItem(key));
+            }
+            reports = [report].concat(reports);
+
+            localStorage.setItem(key, JSON.stringify(reports));
+            console.log(localStorage.getItem(key));
+        }
 
         onInputChanged = function() {
             var report = createReport();

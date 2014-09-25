@@ -4,29 +4,42 @@ LostAndFound.Model.Comment = function() {
 }
 ///#source 1 1 /src/model/primivites/report.js
 LostAndFound.Model.Report = function() {
-    this.lng = null;
-    this.lat = null;
+    this.lng;
+    this.lat;
     this.id;
-    this.imageURL = null;
-    this.description = null;
-    this.title = null;
-    this.type = null;
-    this.category = null;
-    this.reward = null;
-    this.when = null;
-    this.email = null;
-    this.phoneNumber = null;
+    this.imageURL;
+    this.description;
+    this.title ;
+    this.type ;
+    this.category;
+    this.reward ;
+    this.when ;
+    this.email ;
+    this.phoneNumber;
+
+    this.getImage = function () {
+        var image = this.imageURL || "/res/images/placeholders/" + this.category.shortname + ".png";
+        return image;
+    };
+
+    this.getShareText = function() {
+        var text = this.title;
+        if (this.description) {
+            text += " - " + this.description;
+        }
+        return text;
+    };
 
     this.getCategoryName = function () {
         if (this.category) {
             return this.category.shortname;
         }
         return undefined;
-    }
+    };
 
-    this.getType = function() {
+    this.getType = function () {
         return this.type;
-    }
+    };
 }
 ///#source 1 1 /src/model/primivites/sector.js
 LostAndFound.Model.Sector = function (longMin, longMax, latMin, latMax) {

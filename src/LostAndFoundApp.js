@@ -28,7 +28,7 @@ LostAndFound.App = (function () {
             var viewLoaderSettings = Presenting.ViewLoader.getDefaultSettings(root);
             var viewLoader = new Presenting.ViewLoader(viewLoaderSettings);
             loaders.push(viewLoader);
-            
+
 
             var modelParameters = createModelParameters();
             console.log("model parameters", modelParameters);
@@ -55,23 +55,18 @@ LostAndFound.App = (function () {
             var routing = LostAndFound.Presenter.routing;
 
             var modal = new Presenting.FoundationModal(document.getElementById("modal"), document.getElementById("modal-frame"));
-            var modalPresenter = new Presenting.ModalPresenter(modal, settings, routing);
+            var modalPresenter = LostAndFound.ModalPresenter = new Presenting.ModalPresenter(modal, settings, routing);
 
             routing.addRoute("/report/{0}", function (id) {
                 modalPresenter.show("report", id);
             });
 
-            routing.addRoute("{0}/{1}", function (one, two) {
-                console.log("assroute", one, two);
-            });
-
             routing.addRoute("/", function () {
-                console.log("empty hash");
                 LostAndFound.Presenter.show("main");
             });
-            setTimeout(function() {
-                History.pushState(null, null, "/");
 
+            setTimeout(function () {
+                History.pushState(null, null, "/");
             }, 0);
         },
 

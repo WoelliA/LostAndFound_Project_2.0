@@ -1,31 +1,35 @@
 ﻿LostAndFound.Model.ConfigModel = (function () {
     var that = {},
         Category = Parse.Object.extend('category'),
-        types = [],
+        categoriesHashMap = {},
 
         init = function () {
-
             return that;
         },
 
         createCategories = function (parseCategories) {
             return LostAndFound.Model.ParseHelper.copyArray(parseCategories);
         },
+
         getItemTypeForId = function (id) {
-            return types[id];
+            return categoriesHashMap[id];
         },
 
         getItemTypes = function (callback) {
-            if (types) {
-                callback(types);
+            if (LostAndFound.Model.Categories && LostAndFound.Model.Categories.length >0) {
+                callback(LostAndFound.Model.Categories);
+                return;
             }
-            console.log("getting item types!!");
+
+            var types = LostAndFound.Model.Categories = [];
+
             var query = new Parse.Query(Category);
             query.find({
                 success: function (results) {
                     var categories = createCategories(results);
                     categories.forEach(function (category) {
-                        types[category.id] = category;
+                        categoriesHashMap[category.id] = category;
+                        types.push(category);
                     });
                     callback(categories);
                 },

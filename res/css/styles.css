@@ -131,6 +131,21 @@ ul {
     height: 4rem;
 }
 
+.set-location-hint {
+    background-color: rgba(0, 0, 0, 0.45);
+    padding: 0.3rem 0.8rem 0 0.8rem;
+    left: 1rem;
+    right: 0;
+    max-width: 30rem;
+    bottom: 1rem;
+    color: white;
+    position: absolute;
+}
+
+.set-location-hint :nth-child(1){
+    color: inherit;
+}
+
 @-moz-keyframes slidein {
     from {
         -moz-transform: translateX(30px);
@@ -202,4 +217,27 @@ ul {
     -ms-transition: opacity 0.6s ease-in-out;
     -o-transition: opacity 0.6s ease-in-out;
     transition: opacity 0.6s ease-in-out;
+}
+
+
+/* social buttons */
+
+.facebook-button {
+    background-color: #47639e;
+}
+
+.twitter-button {
+    background-color: #00b2f0;
+}
+
+.table {
+    display: table;
+}
+
+.table-cell {
+    display: table-cell !important;
+}
+
+.stretch {
+    width: 100%;
 }
