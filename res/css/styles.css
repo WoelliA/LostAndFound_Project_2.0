@@ -24,11 +24,12 @@ ul {
 }
 
 .reports-list {
+    padding: 0 0.2rem 0 0;
 }
 
     .reports-list li {
-
-        margin: 0.3rem 0;
+        display: block;
+        margin: 0.5rem 0;
     }
 
         .reports-list li :hover {

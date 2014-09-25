@@ -102,6 +102,7 @@ LostAndFound.Controllers.MainController = (function () {
             var trulyNewResults = [];
             for (var ni in newResults) {
                 var report = newResults[ni];
+                report.position = ni;
                 var found = false;
                 for (var oi in lastresults) {
                     var oldReport = lastresults[oi];
