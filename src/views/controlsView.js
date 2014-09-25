@@ -73,10 +73,11 @@
         },
 
         setSelectedItemTypes = function (selectedCategoriesIds) {
+            console.log(selectedCategoriesIds);
             $itemTypesList.children('.item-type').each(function(i) {
                 var $entry = $(this);
                 var entryId = $entry.attr("data-id");
-                if (selectedCategoriesIds.indexOf(entryId) > 0) {
+                if (selectedCategoriesIds.indexOf(entryId) >= 0) {
                     $entry.removeClass('inactive');
                 } else {
                     $entry.addClass('inactive');
