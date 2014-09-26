@@ -10,12 +10,10 @@
   </settings>
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
-    <file>/src/model/dummy/primivites/dummyprimivitesbundle.js</file>
-    <file>/src/model/dummy/userModel.js</file>
-    <file>/src/model/dummy/config.js</file>
-    <file>/src/model/dummy/geoModel.js</file>
-    <file>/src/model/dummy/reportsModel.js</file>
-    <file>/src/model/dummy/commentsModel.js</file>
-    <file>/src/model/dummy/configModel.js</file>
+    <file>primivites/dummyprimivitesbundle.js</file>
+    <file>config.js</file>
+    <file>geoModel.js</file>
+    <file>reportsModel.js</file>
+    <file>configModel.js</file>
   </files>
 </bundle>

@@ -4,12 +4,13 @@
         map,
         $mapCanvas,
         markers = {},
+        zoomOnCenter = 11,
+        defaultZoom = 5,
 
         init = function (context, point) {
             var mapOptions = {
-                zoom: 11
+                zoom: point.zoom || defaultZoom
             };
-
             if (point) {
                 mapOptions.center = new google.maps.LatLng(point.lat, point.lng);
             }
@@ -25,10 +26,21 @@
 
             setTimeout(function () {
                 google.maps.event.trigger(map, 'resize');
-                map.setCenter(point);
+                if (point)
+                    map.setCenter(point);
             }, 200);
 
             return that;
+        },
+
+        getMapSettings = function () {
+            var center = map.getCenter();
+            var settings = {
+                lat: center.lat(),
+                lng: center.lng(),
+                zoom: map.getZoom()
+            };
+            return settings;
         },
 
         lastMapWidth,
@@ -44,6 +56,8 @@
         setCenter = function (point) {
             var loc = new google.maps.LatLng(point.lat, point.lng);
             map.setCenter(loc);
+            var zoom = point.zoom || zoomOnCenter;
+            map.setZoom(zoom);
         },
 
         addMarker = function (report, i) {
@@ -114,6 +128,7 @@
             return sector;
         };
 
+    that.getMapSettings = getMapSettings;
     that.clear = clear;
     that.getSector = getSector;
     that.displayReport = displayReport;

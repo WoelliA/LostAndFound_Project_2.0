@@ -8,7 +8,6 @@
         imageData,
 
         init = function (context) {
-            console.log("SubmitItem init");
             $('#report-form').submit(onSubmit);
             $('#file-input').on('change', imagePicked);
             $('#upload-image').on('click', function (e) {
@@ -25,7 +24,6 @@
         },
 
         imagePicked = function () {
-            console.log(this.files);
             var files = this.files;
             if (files || files.length > 0) {
                 var file = files[0];
@@ -36,19 +34,47 @@
                 }
 
                 var img = document.createElement("img");
-                img.file = file;
-                $("#preview").html(img);
-                $("#preview").removeClass('hidden');
-                console.log("loading file");
+
+                var $preview = $('#preview');
+
                 var reader = new FileReader();
-                reader.onload = (function (aImg) {
-                    return function (e) {
-                        aImg.src = e.target.result;
-                        imageData = e.target.result;
-                    };
-                })(img);
+                reader.onload = function (e) {
+                    var dataUrl = e.target.result;
+                    img.src = dataUrl;
+                    var canvas = drawImageCanvas(img, 300);
+                    imageData = canvas.toDataURL();
+                    img.src = imageData;
+                    $preview.removeClass('hidden');
+                    $preview.html(img);
+                };
                 reader.readAsDataURL(file);
             }
+        },
+
+        drawImageCanvas = function (img, maxWidth) {
+            // QUELLE: https://github.com/josefrichter/resize/blob/master/public/preprocess.js
+
+            var canvas = document.createElement('canvas');
+
+            var width = img.width;
+            var height = img.height;
+
+            if (width > maxWidth) {
+                //height *= maxWidth / width;
+                height = Math.round(height *= maxWidth / width);
+                width = maxWidth;
+            }
+
+            console.log("maxwidth", maxWidth);
+            console.log("image dimensions", width, height);
+
+
+            // resize the canvas and draw the image data into it
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            return canvas;
         },
 
         onSubmit = function (e) {
@@ -72,8 +98,7 @@
         },
 
         setCategories = function (categoriess) {
-            var categories = categoriess.concat();
-            console.log(categoriess);
+            var categories = categoriess.concat(); // don't add the extra category to the reference -> create a copy
             categories.unshift({ name_single: "Wähle die Kategorie des Gegendstands." });
             var select = Mustache.render(categoryOptionsTemplate, categories);
             $categorySelect.html(select);

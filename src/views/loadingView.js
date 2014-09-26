@@ -4,7 +4,6 @@
         target,
 
         init = function() {
-            console.log("LoginView init");
             if (!spinner) {
                 initSpinner();
             }

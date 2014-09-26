@@ -13,13 +13,22 @@
 <body>
     <div id="fb-root"></div>
     <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1550946045139570',
+                xfbml: true,
+                version: 'v2.1'
+            });
+        };
+
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
+            if (d.getElementById(id)) { return; }
             js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=235547439794245&version=v2.0";
+            js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div div class="contain-to-grid fixed">
         <nav class="top-bar" data-topbar>
             <ul class="title-area">
@@ -63,17 +72,17 @@
     <script src="libs/spin.js"></script>
     <script src="libs/parse_1.3.0.js"></script>
 
-    <script src="/src/LostAndFoundApp.js"></script>
-    <script src="/src/views/loadingView.js"></script>
+    <script src="src/LostAndFoundApp.js"></script>
+    <script src="src/views/loadingView.js"></script>
 
-    <script src="/src/views/icon.js"></script>
+    <script src="src/views/icon.js"></script>
 
-    <script src="/src/model/primivites/primitivesmodel.js"></script>
-    <script src="/src/model/requests/requestsbundle.js"></script>
-    <script src="/src/model/_modelbundle.js"></script>
+    <script src="src/model/primivites/primitivesmodel.js"></script>
+    <script src="src/model/requests/requestsbundle.js"></script>
+    <script src="src/model/_modelbundle.js"></script>
 
     <script src="src/model/dummy/primivites/dummyprimivitesbundle.js"></script>
-    <script src="/src/model/dummy/_modelbundle.js"></script>
+    <script src="src/model/dummy/_modelbundle.js"></script>
     <script>
         $(document).foundation();
     </script>

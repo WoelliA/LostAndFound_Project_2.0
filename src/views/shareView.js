@@ -2,7 +2,6 @@
     var that = {},
 
         init = function(context) {
-            console.log("LoginView init");
             $(".facebook-button").on('click', function() {
                 onShareClick('facebook');
             });

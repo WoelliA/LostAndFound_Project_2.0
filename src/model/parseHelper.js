@@ -16,7 +16,6 @@
             this.copyAttributes(object, parseObject);
             results.push(object);
         }
-        console.log(results);
         return results;
     }
 }

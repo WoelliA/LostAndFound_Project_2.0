@@ -1,4 +1,4 @@
-﻿///#source 1 1 /src/model/parsehelper.js
+﻿///#source 1 1 parsehelper.js
 LostAndFound.Model.ParseHelper = {
     copyAttributes: function (target, parseObject) {
         var attributes = parseObject.attributes;
@@ -17,88 +17,61 @@ LostAndFound.Model.ParseHelper = {
             this.copyAttributes(object, parseObject);
             results.push(object);
         }
-        console.log(results);
         return results;
     }
 }
-///#source 1 1 /src/model/userModel.js
-LostAndFound.Model.UserModel = (function () {
-    var that = {},
-
-        init = function () {
-
-            return that;
-        };
-
-    that.init = init;
-    return that;
-
-}());
-///#source 1 1 /src/model/commentsModel.js
-LostAndFound.Model.CommentsModel = (function () {
-    var that = {},
-
-        init = function() {
-
-            return that;
-        },
-
-        getReportsComments = function(reportId, callback) {
-
-        };
-
-    that.getReportsComments = getReportsComments;
-    that.init = init;
-    return that;
-
-}());
-///#source 1 1 /src/model/geoModel.js
+///#source 1 1 geoModel.js
 LostAndFound.Model.GeoModel = (function () {
     var that = {},
         initialLocation = { lng: 10, lat: 50 },
+        storageKey = "map-options",
 
         init = function () {
             return that;
         },
 
         getDefaultLocation = function () {
-            return initialLocation;
+            return restoreSavedSettings() || initialLocation;
+        },
+
+        saveGeoSettings = function (options) {
+            localStorage.setItem(storageKey, JSON.stringify(options));
+        },
+
+        restoreSavedSettings = function () {
+            var settings = localStorage.getItem(storageKey);
+            if (settings) {
+                settings = JSON.parse(settings);
+                return settings;
+            }
+            return null;
         },
 
         getCurrentLocation = function (callback) {
-            var browserSupportFlag = new Boolean();
+            var storedSettings = restoreSavedSettings();
+            if (storedSettings) {
+                callback(storedSettings);
+                return;
+            }
 
-            // Try W3C Geolocation (Preferred)
             if (navigator.geolocation) {
-                browserSupportFlag = true;
                 navigator.geolocation.getCurrentPosition(function (position) {
                     initialLocation.lng = position.coords.longitude;
                     initialLocation.lat = position.coords.latitude;
                     callback(initialLocation);
                 }, function () {
-                    handleNoGeolocation(browserSupportFlag);
+                    
                 });
-            }
-                // Browser doesn't support Geolocation
-            else {
-                browserSupportFlag = false;
-                handleNoGeolocation(browserSupportFlag);
-            }
-
-            function handleNoGeolocation(errorFlag) {
-                if (errorFlag) {
-                    alert("Geolocation service failed.");
-                }
-                callback(initialLocation);
             }
         };
 
+    that.saveGeoSettings = saveGeoSettings;
     that.getDefaultLocation = getDefaultLocation;
     that.getCurrentLocation = getCurrentLocation;
     that.init = init;
     return that;
 }());
-///#source 1 1 /src/model/reportsModel.js
+///#source 1 1 reportsModel.js
 LostAndFound.Model.ReportsModel = (function () {
     var that = {},
         Report = Parse.Object.extend("report"),
@@ -114,6 +87,12 @@ LostAndFound.Model.ReportsModel = (function () {
                 callback(allReports[reportId]);
                 return;
             }
+            var query = new Parse.Query('report');
+            query.include('category');
+            query.get(reportId, function (parseReport) {
+                var report = createResults([parseReport])[0];
+                callback(report);
+            });
         },
 
         saveReport = function (r, callbackObject) {
@@ -216,8 +195,14 @@ LostAndFound.Model.ReportsModel = (function () {
                     if (report) {
                         allReports[report.id] = report;
                         if (report.category) {
+                            console.log("REPORT CATEGORY", report.category);
                             var categoryId = report.category.id;
-                            var category = LostAndFound.Model.ConfigModel.getItemTypeForId(categoryId);
+                            var category = {};
+                            if (report.category.get('shortname')) {
+                                LostAndFound.Model.ParseHelper.copyAttributes(category, report.category);
+                            } else {
+                                category = LostAndFound.Model.ConfigModel.getItemTypeForId(categoryId);
+                            }
                             report.category = category;
                         }
 
@@ -259,7 +244,7 @@ LostAndFound.Model.ReportsModel = (function () {
     return that;
 
 }());
-///#source 1 1 /src/model/configModel.js
+///#source 1 1 configModel.js
 LostAndFound.Model.ConfigModel = (function () {
     var that = {},
         Category = Parse.Object.extend('category'),

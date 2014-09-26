@@ -1,4 +1,4 @@
-﻿///#source 1 1 /src/model/dummy/primivites/dummyComment.js
+﻿///#source 1 1 dummyComment.js
 
 LostAndFound.Model.Dummy.DummyComment = function (num) {
     /// <param name="num" type="Number"></param>
@@ -9,7 +9,7 @@ LostAndFound.Model.Dummy.DummyComment = function (num) {
     this.user = new LostAndFound.Model.Dummy.DummyUser(this.id);
     this.content = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam";
 }
-///#source 1 1 /src/model/dummy/primivites/dummyReport.js
+///#source 1 1 dummyReport.js
 dummyreportscreated = 0;
 LostAndFound.Model.Dummy.DummyReport = function (num, request) {
     /// <param name="num" type="Number"></param>
@@ -65,7 +65,7 @@ LostAndFound.Model.Dummy.DummyReport = function (num, request) {
         return "lost";
     };
 }
-///#source 1 1 /src/model/dummy/primivites/dummyUser.js
+///#source 1 1 dummyUser.js
 dummyreportscreated = 0;
 LostAndFound.Model.Dummy.DummyUser = function (num) {
     /// <param name="num" type="Number"></param>

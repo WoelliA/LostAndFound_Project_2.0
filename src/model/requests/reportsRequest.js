@@ -4,5 +4,4 @@
     this.itemTypes = itemTypes;
     this.offset = offset;
     this.pageSize = pageSize;
-    console.log(this);
 };

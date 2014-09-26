@@ -9,6 +9,7 @@ LostAndFound.Controllers.MainController = (function () {
         controlsView,
         paginationView,
         lastresults,
+        geoModel,
 
         init = function (args) {
             model = args.ReportsModel.init();
@@ -18,14 +19,16 @@ LostAndFound.Controllers.MainController = (function () {
 
             controlsView = views.ControlsView.init(args.frame);
             paginationView = views.PaginationView.init(args.frame);
-            var point = args.GeoModel.getDefaultLocation();
+            geoModel = args.GeoModel.init();
+            var point = geoModel.getDefaultLocation();
+            console.log("starting point", point);
             listView = views.ListView.init(document);
             mapView = views.MapView.init(args.frame, point);
 
             resultViews.push(listView);
             resultViews.push(mapView);
 
-            args.GeoModel.getCurrentLocation(function (p) {
+            geoModel.getCurrentLocation(function (p) {
                 mapView.setCenter(p);
             });
 
@@ -41,7 +44,11 @@ LostAndFound.Controllers.MainController = (function () {
         },
 
         attachListeners = function () {
-            $(mapView).on("sector_changed", kickOffReset);
+            $(mapView).on("sector_changed", function () {
+                var settings = mapView.getMapSettings();
+                geoModel.saveGeoSettings(settings);
+                kickOffReset();
+            });
             $(mapView).on("report-selected", onReportSelected);
             $(listView).on("report-selected", onReportSelected);
             $(controlsView).on("type-changed", function () {
@@ -80,7 +87,6 @@ LostAndFound.Controllers.MainController = (function () {
             var pageSize = paginationView.getPageSize();
             var page = paginationView.getPage();
             var offset = pageSize * (page - 1);
-            console.log("PAGE; OFFSET", page, offset);
             var request = new LostAndFound.Model.ReportsRequest(sector, type, itemTypes, offset, pageSize);
 
             model.getReports(request, function (newResults) {

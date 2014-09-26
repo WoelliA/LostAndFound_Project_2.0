@@ -10,8 +10,8 @@
   </settings>
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
-    <file>/src/model/dummy/primivites/dummyComment.js</file>
-    <file>/src/model/dummy/primivites/dummyReport.js</file>
-    <file>/src/model/dummy/primivites/dummyUser.js</file>
+    <file>dummyComment.js</file>
+    <file>dummyReport.js</file>
+    <file>dummyUser.js</file>
   </files>
 </bundle>

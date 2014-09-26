@@ -10,10 +10,10 @@
   </settings>
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
-    <file>/src/model/primivites/comment.js</file>
-    <file>/src/model/primivites/report.js</file>
-    <file>/src/model/primivites/sector.js</file>
-    <file>/src/model/primivites/user.js</file>
-	<file>/src/model/primivites/itemtype.js</file>
+    <file>comment.js</file>
+    <file>report.js</file>
+    <file>sector.js</file>
+    <file>user.js</file>
+	<file>itemtype.js</file>
   </files>
 </bundle>

@@ -19,7 +19,6 @@ LostAndFound.App = (function () {
         },
 
         initPresenter = function () {
-
             var frame = document.getElementById("frame");
             var context = document.getElementById("content");
             var root = window.location.origin;
@@ -51,27 +50,29 @@ LostAndFound.App = (function () {
                 contentListeners: contentListeners
             };
 
-            LostAndFound.Presenter = new Presenting.MainPresenter(settings, context);
+            var mainPresenter = LostAndFound.Presenter = new Presenting.MainPresenter(settings, context);
             var routing = LostAndFound.Presenter.routing;
 
             var modal = new Presenting.FoundationModal(document.getElementById("modal"), document.getElementById("modal-frame"));
             var modalPresenter = LostAndFound.ModalPresenter = new Presenting.ModalPresenter(modal, settings, routing);
 
-            routing.addRoute("/report/{0}", function (id) {
-                modalPresenter.show("report", id);
-            });
-
             routing.addRoute("/", function () {
                 LostAndFound.Presenter.show("main");
             });
 
-            setTimeout(function () {
-                History.pushState(null, null, "/");
-            }, 0);
+            routing.addRoute("/report/{0}:?query:", function (id) {
+                if (routing.hashBackStack.length == 0) {
+                    console.log("EMPTY BACKSTACK!");
+                    mainPresenter.show('report', id);
+                } else 
+                    modalPresenter.show("report", id);
+            });
+
+            History.pushState(null, null, "/");
+
+            routing.onHashChange();
         },
 
-    //        document.getElementById('modal-frame');
-    //document.getElementById('modal');
         createModelParameters = function () {
             if (isRelease) {
                 Parse.initialize("5JwuXWVknlw1PjJugdSbqDUcXncTeEyXOKpdRNgA", "VDnCiH0qZW94SGyBU4fHeVMKZDKaSOnvgMQD2Vpb");

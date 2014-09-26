@@ -1,43 +1,48 @@
 ﻿LostAndFound.Model.GeoModel = (function () {
     var that = {},
         initialLocation = { lng: 10, lat: 50 },
+        storageKey = "map-options",
 
         init = function () {
             return that;
         },
 
         getDefaultLocation = function () {
-            return initialLocation;
+            return restoreSavedSettings() || initialLocation;
+        },
+
+        saveGeoSettings = function (options) {
+            localStorage.setItem(storageKey, JSON.stringify(options));
+        },
+
+        restoreSavedSettings = function () {
+            var settings = localStorage.getItem(storageKey);
+            if (settings) {
+                settings = JSON.parse(settings);
+                return settings;
+            }
+            return null;
         },
 
         getCurrentLocation = function (callback) {
-            var browserSupportFlag = new Boolean();
+            var storedSettings = restoreSavedSettings();
+            if (storedSettings) {
+                callback(storedSettings);
+                return;
+            }
 
-            // Try W3C Geolocation (Preferred)
             if (navigator.geolocation) {
-                browserSupportFlag = true;
                 navigator.geolocation.getCurrentPosition(function (position) {
                     initialLocation.lng = position.coords.longitude;
                     initialLocation.lat = position.coords.latitude;
                     callback(initialLocation);
                 }, function () {
-                    handleNoGeolocation(browserSupportFlag);
+                    
                 });
-            }
-                // Browser doesn't support Geolocation
-            else {
-                browserSupportFlag = false;
-                handleNoGeolocation(browserSupportFlag);
-            }
-
-            function handleNoGeolocation(errorFlag) {
-                if (errorFlag) {
-                    alert("Geolocation service failed.");
-                }
-                callback(initialLocation);
             }
         };
 
+    that.saveGeoSettings = saveGeoSettings;
     that.getDefaultLocation = getDefaultLocation;
     that.getCurrentLocation = getCurrentLocation;
     that.init = init;

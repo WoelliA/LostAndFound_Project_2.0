@@ -8,7 +8,6 @@ LostAndFound.Controllers.ShareController = (function () {
         init = function (param) {
             shareUrl = param.parameters.url;
             shareText = param.parameters.text;
-            console.log("sharecontroller init", shareUrl);
             shareView = LostAndFound.Views.ShareView.init();
             attachListeners();
             return that;
@@ -43,7 +42,6 @@ LostAndFound.Controllers.ShareController = (function () {
                 method: 'share',
                 href: url,
             }, function (response) {
-                console.log("shared");
             });
         },
 
@@ -65,7 +63,6 @@ LostAndFound.Controllers.ShareController = (function () {
         trimTwitterText = function (text, url) {
             var twitterMessageLength = 140;
             var availableSpace = twitterMessageLength - 1 - url.length;
-            console.log(availableSpace);
             text = text.slice(0, availableSpace - 5);
             return text + " ...";
         };

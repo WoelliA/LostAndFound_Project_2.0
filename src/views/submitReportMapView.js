@@ -5,12 +5,9 @@
         position,
 
         init = function (context) {
-            console.log("CreateReportMapView init");
-            var mapOptions = {
-                zoom: 11
-            };
             var $maps = $(".map-canvas", context);
-            map = new google.maps.Map($maps[0], mapOptions);
+            map = new google.maps.Map($maps[0]);
+
             google.maps.event.addListener(map, 'rightclick', function (evt) {
                 var latLng = evt.latLng;
                 setCenter({
@@ -43,6 +40,8 @@
             if (map && report) {
                 var loc = new google.maps.LatLng(report.lat, report.lng);
                 map.setCenter(loc);
+                if(report.zoom)
+                map.setZoom(report.zoom);
 
                 var icon = new LostAndFound.Views.Icon(report);
                 if (marker) {

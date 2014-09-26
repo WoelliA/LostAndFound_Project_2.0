@@ -16,6 +16,7 @@
         },
 
         displayReport = function (report) {
+            console.log("DISPLAYING REPORT", report);
             var entry = Mustache.render(reportTemplate, report);
             $detailsFrame.html(entry); 
 

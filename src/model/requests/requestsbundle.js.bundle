@@ -10,7 +10,7 @@
   </settings>
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
-    <file>/src/model/requests/reportsRequest.js</file>
-    <file>/src/model/requests/commentsRequest.js</file>
+    <file>requestsbundle.js</file>
+    <file>commentsRequest.js</file>
   </files>
 </bundle>

@@ -13,6 +13,12 @@
                 callback(allReports[reportId]);
                 return;
             }
+            var query = new Parse.Query('report');
+            query.include('category');
+            query.get(reportId, function (parseReport) {
+                var report = createResults([parseReport])[0];
+                callback(report);
+            });
         },
 
         saveReport = function (r, callbackObject) {
@@ -115,8 +121,14 @@
                     if (report) {
                         allReports[report.id] = report;
                         if (report.category) {
+                            console.log("REPORT CATEGORY", report.category);
                             var categoryId = report.category.id;
-                            var category = LostAndFound.Model.ConfigModel.getItemTypeForId(categoryId);
+                            var category = {};
+                            if (report.category.get('shortname')) {
+                                LostAndFound.Model.ParseHelper.copyAttributes(category, report.category);
+                            } else {
+                                category = LostAndFound.Model.ConfigModel.getItemTypeForId(categoryId);
+                            }
                             report.category = category;
                         }
 

@@ -1,8 +1,8 @@
-﻿///#source 1 1 /src/model/primivites/comment.js
+﻿///#source 1 1 comment.js
 LostAndFound.Model.Comment = function() {
     var id, user, content;
 }
-///#source 1 1 /src/model/primivites/report.js
+///#source 1 1 report.js
 LostAndFound.Model.Report = function() {
     this.lng;
     this.lat;
@@ -41,18 +41,18 @@ LostAndFound.Model.Report = function() {
         return this.type;
     };
 }
-///#source 1 1 /src/model/primivites/sector.js
+///#source 1 1 sector.js
 LostAndFound.Model.Sector = function (longMin, longMax, latMin, latMax) {
     this.longMin = longMin;
     this.longMax = longMax;
     this.latMin = latMin;
     this.latMax = latMax;
 }
-///#source 1 1 /src/model/primivites/user.js
+///#source 1 1 user.js
 LostAndFound.Model.User = function() {
     var id, imageURL, info, name;
 }
-///#source 1 1 /src/model/primivites/itemtype.js
+///#source 1 1 itemtype.js
 LostAndFound.Model.ItemType = function(id, name, shortname) {
     this.id = id;
     this.name = name;

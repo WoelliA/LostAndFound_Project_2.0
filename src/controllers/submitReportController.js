@@ -9,7 +9,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
         loadingView,
 
         init = function (args) {
-
+            var geoModel = args.GeoModel.init();
             controlsView = LostAndFound.Views.ControlsView.init(args.frame);
             mapView = LostAndFound.Views.SubmitReportMapView.init(args.frame);
             submitView = LostAndFound.Views.SubmitReportView.init(args.frame);
@@ -21,6 +21,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 var report = new LostAndFound.Model.Report();
                 report.lng = loc.lng;
                 report.lat = loc.lat;
+                report.zoom = loc.zoom;
                 report.type = controlsView.getSelectedType();
                 report.getCategoryName = function () { return undefined; };
                 mapView.setup(report);
@@ -106,8 +107,8 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 reports = JSON.parse(localStorage.getItem(key));
             }
             reports = [report].concat(reports);
-
-            localStorage.setItem(key, JSON.stringify(reports));
+            console.log(reports);
+            //localStorage.setItem(key, JSON.stringify(reports));
             console.log(localStorage.getItem(key));
         }
 

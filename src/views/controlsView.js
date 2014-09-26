@@ -73,7 +73,6 @@
         },
 
         setSelectedItemTypes = function (selectedCategoriesIds) {
-            console.log(selectedCategoriesIds);
             $itemTypesList.children('.item-type').each(function(i) {
                 var $entry = $(this);
                 var entryId = $entry.attr("data-id");
