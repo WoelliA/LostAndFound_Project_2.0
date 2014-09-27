@@ -20,7 +20,7 @@
                 toggle($lostButton, $foundButton);
             });
 
-            $itemTypesList.on('click', 'li', function (evt) {
+            $itemTypesList.on('click', '.item-type', function (evt) {
                 var $entry = $(evt.currentTarget);
                 toggleItemType($entry);
             });

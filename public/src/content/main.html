@@ -2,30 +2,30 @@
 <head>
     <title>Lost and Found</title>
 </head>
-    <body>
-        <div class="content">
-            <div class="row">
-                <div class="map-canvas" style="width: 100%; height: 25rem"></div>
-            </div>
-            <div class="row type-select">
-                <div id="lost-button" class="button">Verlorengegangenes</div>
-                <div id="found-button" class="button">Gefundenes</div>
-            </div>
-            <div class="row pagination-centered">
-                <ul class="pagination" id="pagination-frame"></ul>
-            </div>
-            <div class="row">
-                <ul class="column large-2 medium-3 side-nav" id="item-types" role="navigation" title="Categories"></ul>
-                <div class="column large-10 medium-9">
-
-                    <ul id="reports-list" class="reports-list"></ul>
-                </div>
-            </div>
-            <div class="row pagination-centered">
-                <ul class="pagination" id="pagination-frame"></ul>
+<body>
+    <div class="content">
+        <div class="row">
+            <div class="map-canvas" style="width: 100%; height: 25rem"></div>
+        </div>
+        <div class="row type-select">
+            <div id="lost-button" class="button">Verlorengegangenes</div>
+            <div id="found-button" class="button">Gefundenes</div>
+        </div>
+        <div class="row">
+            <div class="icon-bar five-up" id="item-types">
             </div>
         </div>
-    </body>
+        <div class="row pagination-centered">
+            <ul class="pagination" id="pagination-frame"></ul>
+        </div>
+        <div class="row">
+            <ul id="reports-list" class="reports-list"></ul>
+        </div>
+        <div class="row pagination-centered">
+            <ul class="pagination" id="pagination-frame"></ul>
+        </div>
+    </div>
+</body>
 </html>
 
 <script id="pagination-template" type="x-tmpl-mustache">
@@ -39,23 +39,28 @@
 </script>
 
 <script id="report-template" type="x-tmpl-mustache">
-    <li style="width: 100%; " data-id="{{id}}" class="th content">
+    <li data-id="{{id}}" class="th content list-entry stretch">
         <a href="/#report/{{id}}">
-            <img style="width:140px; float:left; margin-right:1rem;" src="{{getImage}}">
-            <h4>
-                {{title}}
-                {{#reward}}
-                <span><small><b>{{reward}}€ </b>Finderlohn</small></span>
-                {{/reward}}
-            </h4>
-            <p style="font-size: 0.8rem;">{{description}}</p>
+            <div>
+                <img src="{{getImage}}">
+                <div>
+                    <h4>
+                        {{title}}
+                        {{#reward}}
+                        <span><small><b>{{reward}}€ </b>Finderlohn</small></span>
+                        {{/reward}}
+                    </h4>
+                    <p>{{description}}</p>
+                </div>
+            </div>
         </a>
     </li>
 </script>
 
 <script id="item-type-template" type="x-tmpl-mustache">
-    <li style="width: 100%;" class="button item-type" data-id="{{id}}">
-        {{name}}
+    <li class="item button item-type" data-id="{{id}}">
+        <img src="/res/images/controlsicons/{{shortname}}.png">
+        <label> {{name}}</label>
     </li>
 </script>
 

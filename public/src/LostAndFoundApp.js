@@ -15,7 +15,14 @@ LostAndFound.App = (function () {
             $.ajaxSetup({
                 cache: true
             });
+            var isLocal = window.location.host.indexOf("localhost") >= 0;
+            if (isRelease&& !isLocal) {
+                console.log = function() {};
+            }
             initPresenter();
+            if (isLocal) {
+                History.pushState(null, null, "/");
+            }
         },
 
         initPresenter = function () {
@@ -67,7 +74,6 @@ LostAndFound.App = (function () {
                 } else 
                     modalPresenter.show("report", id);
             });
-
 
             routing.onHashChange();
         },

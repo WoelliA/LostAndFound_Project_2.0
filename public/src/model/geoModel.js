@@ -1,6 +1,6 @@
 ﻿LostAndFound.Model.GeoModel = (function () {
     var that = {},
-        initialLocation = { lng: 10, lat: 50 },
+        initialLocation = { lng: 10, lat: 50, zoom: 5 },
         storageKey = "map-options",
 
         init = function () {
@@ -25,19 +25,17 @@
         },
 
         getCurrentLocation = function (callback) {
-            var storedSettings = restoreSavedSettings();
-            if (storedSettings) {
-                callback(storedSettings);
-                return;
-            }
+            var defaultLoc = getDefaultLocation();
+            callback(defaultLoc);
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    initialLocation.lng = position.coords.longitude;
-                    initialLocation.lat = position.coords.latitude;
-                    callback(initialLocation);
+                    var pos = {}
+                    pos.lng = position.coords.longitude;
+                    pos.lat = position.coords.latitude;
+                    callback(pos);
                 }, function () {
-                    
+
                 });
             }
         };

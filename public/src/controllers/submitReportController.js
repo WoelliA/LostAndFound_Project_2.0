@@ -11,13 +11,13 @@ LostAndFound.Controllers.SubmitReportController = (function () {
         init = function (args) {
             var geoModel = args.GeoModel.init();
             controlsView = LostAndFound.Views.ControlsView.init(args.frame);
-            mapView = LostAndFound.Views.SubmitReportMapView.init(args.frame);
+            mapView = LostAndFound.Views.SubmitReportMapView.init(args.frame, geoModel.getDefaultLocation());
             submitView = LostAndFound.Views.SubmitReportView.init(args.frame);
             loadingView = LostAndFound.Views.LoadingView.init();
 
             reportsModel = args.ReportsModel.init();
 
-            args.GeoModel.getCurrentLocation(function (loc) {
+            geoModel.getCurrentLocation(function (loc) {
                 var report = new LostAndFound.Model.Report();
                 report.lng = loc.lng;
                 report.lat = loc.lat;

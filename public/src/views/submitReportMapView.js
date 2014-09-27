@@ -4,9 +4,17 @@
         marker,
         position,
 
-        init = function (context) {
+        init = function (context, options) {
+            options.center = new google.maps.LatLng(options.lat, options.lng);
+
+            console.log("SUBMIT MAP VIEW INIT", options);
+
             var $maps = $(".map-canvas", context);
-            map = new google.maps.Map($maps[0]);
+            map = new google.maps.Map($maps[0], options);
+
+            if (options.zoom) {
+                map.setZoom(options.zoom);
+            }
 
             google.maps.event.addListener(map, 'rightclick', function (evt) {
                 var latLng = evt.latLng;
@@ -30,7 +38,7 @@
             return that;
         },
 
-        adjust = function (report) {            
+        adjust = function (report) {
             if (marker) {
                 marker.setIcon(new LostAndFound.Views.Icon(report));
             }
@@ -38,10 +46,12 @@
 
         setup = function (report) {
             if (map && report) {
+                console.log("SUBMIT REPORT VIEW SETUP", report);
                 var loc = new google.maps.LatLng(report.lat, report.lng);
                 map.setCenter(loc);
-                if(report.zoom)
-                map.setZoom(report.zoom);
+                if (report.zoom) {
+                    map.setZoom(report.zoom);
+                }
 
                 var icon = new LostAndFound.Views.Icon(report);
                 if (marker) {
