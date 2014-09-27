@@ -68,7 +68,6 @@ LostAndFound.App = (function () {
                     modalPresenter.show("report", id);
             });
 
-            History.pushState(null, null, "/");
 
             routing.onHashChange();
         },

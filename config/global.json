@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "LostAndFound": {
+            "applicationId": "5JwuXWVknlw1PjJugdSbqDUcXncTeEyXOKpdRNgA", 
+            "masterKey": "BY03NFOkk5tSIDX7S7VkFPRvMLdY4bSbYmfnv7NB"
+        }, 
+        "_default": {
+            "link": "LostAndFound"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.0"
+    }
+}

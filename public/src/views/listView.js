@@ -5,9 +5,9 @@
 
         init = function (element) {
             $list = $("#reports-list", element);
-            $("#reports-list").on('click', 'li', function (evt) {
-                $(that).trigger("report-selected", evt.currentTarget.attributes['data-id'].value);
-            });
+            //$("#reports-list").on('click', 'li', function (evt) {
+            //    $(that).trigger("report-selected", evt.currentTarget.attributes['data-id'].value);
+            //});
             template = $('#report-template').html();
             Mustache.parse(template);
             return that;

@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Lost and found</title>
+    <link href="res/css/normalize.css" rel="stylesheet" />
+    <link href="res/css/foundation.css" rel="stylesheet" />
+    <link href="res/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1550946045139570',
+                xfbml: true,
+                version: 'v2.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div div class="contain-to-grid fixed">
+        <nav class="top-bar" data-topbar>
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#/main">Lost and found</a></h1>
+                </li>
+
+                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    <li class="active"><a href="#/submitReport">Anzeige anlegen</a></li>
+                </ul>
+
+                <!-- Left Nav Section -->
+                <ul class="left">
+                    <!--<li><a href="#">Left Nav Button</a></li>-->
+                </ul>
+            </section>
+        </nav>
+    </div>
+    <div style="position: relative">
+        <div id="frame"></div>
+    </div>
+
+    <div id="modal" class="reveal-modal" data-reveal>
+        <div id="modal-frame" class="modal-frame">
+        </div>
+    </div>
+
+    <div id="spinner" class="hidden"></div>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCNihRlhXgkhKaBb5UzntYtJFn6e0nUj0U"></script>
+    <script src="libs/jquery-2.1.1.js"> </script>
+    <script src="libs/mustache.js"></script>
+    <script src="libs/common_bundle.js"></script>
+    <script src="libs/foundation.min.js"></script>
+    <script src="libs/spin.js"></script>
+    <script src="libs/parse_1.3.0.js"></script>
+
+    <script src="src/LostAndFoundApp.js"></script>
+    <script src="src/views/loadingView.js"></script>
+
+    <script src="src/views/icon.js"></script>
+
+    <script src="src/model/primivites/primitivesmodel.js"></script>
+    <script src="src/model/requests/requestsbundle.js"></script>
+    <script src="src/model/_modelbundle.js"></script>
+
+    <script src="src/model/dummy/primivites/dummyprimivitesbundle.js"></script>
+    <script src="src/model/dummy/_modelbundle.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+    <script>
+        console.log("href:",window.location.href);
+        LostAndFound.App.init();
+    </script>
+
+</body>
+</html>

@@ -40,14 +40,16 @@
 
 <script id="report-template" type="x-tmpl-mustache">
     <li style="width: 100%; " data-id="{{id}}" class="th content">
-        <img style="width:140px; float:left; margin-right:1rem;" src="{{getImage}}">
-        <h4>
-            {{title}}
-            {{#reward}}
-            <span><small><b>{{reward}}€ </b>Finderlohn</small></span>
-            {{/reward}}
-        </h4>
-        <p style="font-size: 0.8rem;">{{description}}</p>
+        <a href="/#report/{{id}}">
+            <img style="width:140px; float:left; margin-right:1rem;" src="{{getImage}}">
+            <h4>
+                {{title}}
+                {{#reward}}
+                <span><small><b>{{reward}}€ </b>Finderlohn</small></span>
+                {{/reward}}
+            </h4>
+            <p style="font-size: 0.8rem;">{{description}}</p>
+        </a>
     </li>
 </script>
 
