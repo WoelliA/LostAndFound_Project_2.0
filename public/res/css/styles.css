@@ -16,7 +16,11 @@ ul {
 }
 
 .inactive {
-    background-color: #808080 !important;
+    background-color: #707070 !important;
+}
+
+.inactive:hover {
+    background-color: #404040 !important;
 }
 
 .reports-list {
@@ -244,20 +248,21 @@ ul {
     position: relative;
 }
 
-.list-entry a {
-    display: inline-block;
-    height: 100%;
-    width:100%
-}
+    .list-entry a {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+    }
 
-.list-entry img {
-    width: 140px;
-    float: left;
-    margin-right: 1rem;
-}
-.list-entry p {
-    color: #222;
-}
+    .list-entry img {
+        width: 140px;
+        float: left;
+        margin-right: 1rem;
+    }
+
+    .list-entry p {
+        color: #222;
+    }
 
 .icon-bar > * {
     padding: 0.5rem 0.2rem;
@@ -267,3 +272,44 @@ ul {
     white-space: nowrap;
 }
 
+.icon-bar > *:hover {
+    background-color: #007095;
+}
+
+.icon-bar .icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+}
+
+.icon-bar .backpack {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') -30px -60px;
+}
+.icon-bar .laptop {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png');
+}
+.icon-bar .bike {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') -30px 0;
+}
+.icon-bar .stick {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') -60px 0;
+}
+.icon-bar .phone {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png')  -90px 0;
+}
+.icon-bar .wallet {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') 0 -30px;
+}
+.icon-bar .key {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') -30px -30px;
+}
+.icon-bar .jacket {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png')  -60px -30px ;
+}
+.icon-bar .suitcase {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png') -90px -30px ;
+}
+.icon-bar .handbag {
+    background: url('/res/images/controlsicons/controls_icons_sheet.png')  0 -60px;
+}

@@ -40,7 +40,7 @@
 
 <script id="report-template" type="x-tmpl-mustache">
     <li data-id="{{id}}" class="th content list-entry stretch">
-        <a href="/#report/{{id}}">
+        <a href="#/report/{{id}}">
             <div>
                 <img src="{{getImage}}">
                 <div>
@@ -59,7 +59,7 @@
 
 <script id="item-type-template" type="x-tmpl-mustache">
     <li class="item button item-type" data-id="{{id}}">
-        <img src="/res/images/controlsicons/{{shortname}}.png">
+        <div class="icon {{shortname}}"></div>
         <label> {{name}}</label>
     </li>
 </script>
@@ -68,3 +68,4 @@
 <script src="/src/views/listView.js"></script>
 <script src="/src/views/mapView.js"></script>
 <script src="/src/views/controlsView.js"></script>
+<script src="/src/controllers/mainController.js"></script>

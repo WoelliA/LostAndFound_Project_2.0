@@ -28,6 +28,9 @@ LostAndFound.App = (function () {
         initPresenter = function () {
             var frame = document.getElementById("frame");
             var context = document.getElementById("content");
+            if (!window.location.origin) {
+                window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+            }
             var root = window.location.origin;
 
             var loaders = [];
@@ -38,6 +41,7 @@ LostAndFound.App = (function () {
 
             var modelParameters = createModelParameters();
             console.log("model parameters", modelParameters);
+
             var controllerInstanceLoader = new Helpers.InitInstanceLoader(LostAndFound.Controllers, modelParameters);
 
             var controllerLoaderSettings = Presenting.ControllerLoader.getDefaultSettings(root);

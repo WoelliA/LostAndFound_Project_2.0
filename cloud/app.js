@@ -5,12 +5,35 @@ app.set('views', 'cloud/views');  // Specify the folder to find templates
 app.set('view engine', 'ejs');    // Set the template engine
 app.use(express.bodyParser());    // Middleware for reading request body
 
-function renderReport_facebook(req, res) {
+metacrawlers = [
+    'facebook',
+    'facebot',
+    'twitterbot'
+];
+
+indexcrawlers = [
+    'googlebot',
+    'bingbot'
+];
+
+function isCrawled(request, crawlers) {
+    var userAgent = request.get('user-agent').toLowerCase();
+    for (var i = 0; i < crawlers.length; i++) {
+        var bot = crawlers[i];
+        if (userAgent.indexOf(bot) >= 0) {
+            console.log("is getting crawled by " + bot);
+            return true;
+        }
+    }
+    return false;
+};
+
+function renderMetaReport(req, res) {
     var query = new Parse.Query('report');
     query.include('category');
     var callback = {
         success: function (result) {
-            res.render('report_facebook', {
+            res.render('report_meta', {
                 report: JSON.stringify(result),
                 category: JSON.stringify(result.get('category')),
                 host: req.host
@@ -23,34 +46,30 @@ function renderReport_facebook(req, res) {
     query.get(req.params.id, callback);
 };
 
-crawlers = [
-    'facebook',
-    'facebot',
-    'googlebot',
-    'bingbot'
-];
 
-function isCrawled(request) {
-    var userAgent = request.get('user-agent');
-    for (var i = 0; i < crawlers.length; i++) {
-        var bot = crawlers[i];
-        if (userAgent.indexOf(bot) >= 0) {
-            return true;
+function renderStaticIndex(request, response) {
+    var query = new Parse.Query('report');
+    query.descending('createdAt');
+    var callback = {
+        success: function (result) {
+            console.log(result);
+            var param = {
+                reports: JSON.stringify(result),
+                host: request.host
+            };
+            response.render('static_index', param);
         }
     }
-    return false;
+    query.find(callback);
 };
 
-// This is an example of hooking up a request handler with a specific request
-// path and HTTP verb using the Express routing API.
+
 app.get('/report/:id', function (req, res) {
-    var userAgent = req.headers['user-agent'];
-    if (isCrawled(req)) {
-        renderReport_facebook(req, res);
+    if (isCrawled(req, metacrawlers)) {
+        renderMetaReport(req, res);
         return;
     }
     res.render('index', '');
-    //res.render('index');
 });
 
 app.get('/:section', function (req, res) {
@@ -58,8 +77,12 @@ app.get('/:section', function (req, res) {
 });
 
 app.get('/', function (req, res) {
+    if (isCrawled(req, indexcrawlers)) {
+        renderStaticIndex(req, res);
+        return;
+    }
     res.render('index', '');
 });
 
-// This line is required to make Express respond to http requests.
+
 app.listen();

@@ -262,15 +262,15 @@ var Presenting;
                     }
                 } else {
                 }
-                if (this.skipParse) {
+
+                if (this.skipParse || o.handled) {
                     console.log("skipping route parsing");
                     this.skipParse = false;
                     crossroads.resetState();
-                } else if (!o.handled) {
+                } else {
                     this.parse(hash);
                 }
                 this.hashBackStack.push(hash);
-                console.log("", this.historyjs);
             } else {
                 console.error("History state has no hash");
             }
@@ -696,10 +696,12 @@ var Presenting;
         }
         FoundationModal.prototype.show = function () {
             console.log("modal.show");
+            this.isOpen = true;
             this.$modal.foundation('reveal', 'open');
         };
         FoundationModal.prototype.hide = function () {
             console.log("modal.hide");
+            this.isOpen = false;
             this.$modal.foundation('reveal', 'close');
         };
         return FoundationModal;

@@ -107,10 +107,9 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 reports = JSON.parse(localStorage.getItem(key));
             }
             reports = [report].concat(reports);
+            localStorage.setItem(key, JSON.stringify(reports));
             console.log(reports);
-            //localStorage.setItem(key, JSON.stringify(reports));
-            console.log(localStorage.getItem(key));
-        }
+        },
 
         onInputChanged = function() {
             var report = createReport();
