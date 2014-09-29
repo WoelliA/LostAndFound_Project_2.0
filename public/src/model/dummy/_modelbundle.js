@@ -1,6 +1,4 @@
-﻿///#source 1 1 primivites/dummyprimivitesbundle.js
-///#source 1 1 dummyComment.js
-
+﻿
 LostAndFound.Model.Dummy.DummyComment = function (num) {
     /// <param name="num" type="Number"></param>
     /// <param name="request" type="LostAndFound.Model.ReportsRequest"></param>
@@ -10,7 +8,6 @@ LostAndFound.Model.Dummy.DummyComment = function (num) {
     this.user = new LostAndFound.Model.Dummy.DummyUser(this.id);
     this.content = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam";
 }
-///#source 1 1 dummyReport.js
 dummyreportscreated = 0;
 LostAndFound.Model.Dummy.DummyReport = function (num, request) {
     /// <param name="num" type="Number"></param>
@@ -60,13 +57,11 @@ LostAndFound.Model.Dummy.DummyReport = function (num, request) {
     };
 
     this.getType = function getType() {
-        console.log(this.type);
         if (this.type)
             return this.type;
         return "lost";
     };
 }
-///#source 1 1 dummyUser.js
 dummyreportscreated = 0;
 LostAndFound.Model.Dummy.DummyUser = function (num) {
     /// <param name="num" type="Number"></param>
@@ -79,7 +74,6 @@ LostAndFound.Model.Dummy.DummyUser = function (num) {
     this.imageURL = "http://bikechicago.info/securebike.jpg";
 }
 
-///#source 1 1 config.js
 LostAndFound.Model.Dummy.Config = {
     delay: 1000,
     itemTypes: {
@@ -96,9 +90,7 @@ LostAndFound.Model.Dummy.Config = {
     },
     itemTypeLength: 10
 };
-///#source 1 1 geoModel.js
 LostAndFound.Model.Dummy.GeoModel = LostAndFound.Model.GeoModel;
-///#source 1 1 reportsModel.js
 LostAndFound.Model.Dummy.ReportsModel = (function () {
     var that = {},
         allReports = [],
@@ -106,13 +98,11 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
 
 
         init = function() {
-            console.log("dummymodel init");
             return that;
         },
 
         saveReport = function(report, callback) {
             setTimeout(function () {
-                console.log("dummy save report done");
                 callback.success();
             }, LostAndFound.Model.Dummy.Config.delay);
         },
@@ -131,7 +121,6 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
 
         getReports = function (request, callback) {
             /// <param name="request" type="LostAndFound.Model.ReportsRequest">The request.</param>
-            console.log("getreqports", request);
             setTimeout(function () {
                 var oldReports = reports;
                 reports =[];
@@ -151,7 +140,6 @@ LostAndFound.Model.Dummy.ReportsModel = (function () {
     that.init = init;
     return that;
 }());
-///#source 1 1 configModel.js
 LostAndFound.Model.Dummy.ConfigModel = (function () {
     var that = {},
 

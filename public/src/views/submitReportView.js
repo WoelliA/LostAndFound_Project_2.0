@@ -65,10 +65,6 @@
                 width = maxWidth;
             }
 
-            console.log("maxwidth", maxWidth);
-            console.log("image dimensions", width, height);
-
-
             // resize the canvas and draw the image data into it
             canvas.width = width;
             canvas.height = height;

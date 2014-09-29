@@ -5,13 +5,11 @@
 
 
         init = function() {
-            console.log("dummymodel init");
             return that;
         },
 
         saveReport = function(report, callback) {
             setTimeout(function () {
-                console.log("dummy save report done");
                 callback.success();
             }, LostAndFound.Model.Dummy.Config.delay);
         },
@@ -30,7 +28,6 @@
 
         getReports = function (request, callback) {
             /// <param name="request" type="LostAndFound.Model.ReportsRequest">The request.</param>
-            console.log("getreqports", request);
             setTimeout(function () {
                 var oldReports = reports;
                 reports =[];

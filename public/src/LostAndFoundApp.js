@@ -16,8 +16,8 @@ LostAndFound.App = (function () {
                 cache: true
             });
             var isLocal = window.location.host.indexOf("localhost") >= 0;
-            if (isRelease&& !isLocal) {
-                console.log = function() {};
+            if (isRelease && !isLocal) {
+                console.log = function () { };
             }
             initPresenter();
             if (isLocal) {
@@ -34,13 +34,13 @@ LostAndFound.App = (function () {
             var root = window.location.origin;
 
             var loaders = [];
-            var viewLoaderSettings = Presenting.ViewLoader.getDefaultSettings(root);
-            var viewLoader = new Presenting.ViewLoader(viewLoaderSettings);
-            loaders.push(viewLoader);
+
+            //var viewLoaderSettings = Presenting.ViewLoader.getDefaultSettings(root);
+            //var viewLoader = new Presenting.ViewLoader(viewLoaderSettings);
+            //loaders.push(viewLoader);
 
 
             var modelParameters = createModelParameters();
-            console.log("model parameters", modelParameters);
 
             var controllerInstanceLoader = new Helpers.InitInstanceLoader(LostAndFound.Controllers, modelParameters);
 
@@ -73,11 +73,18 @@ LostAndFound.App = (function () {
 
             routing.addRoute("/report/{0}:?query:", function (id) {
                 if (routing.hashBackStack.length == 0) {
-                    console.log("EMPTY BACKSTACK!");
                     mainPresenter.show('report', id);
-                } else 
+                } else
                     modalPresenter.show("report", id);
             });
+
+            var showCity = function() {
+                if (window.city) {
+                    mainPresenter.show("main");
+                } else
+                    mainPresenter.show("404");
+            }
+            routing.addRoute("/{section}/{subsection}", showCity);
 
             routing.onHashChange();
         },

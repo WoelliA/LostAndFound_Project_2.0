@@ -1,7 +1,7 @@
 ﻿LostAndFound.Controllers.ReportController = (function () {
     var that = {},
         reportsModel,
-        detailsView,
+        reportView,
         mapView,
         reportId,
         
@@ -11,11 +11,11 @@
             var shareController = LostAndFound.Controllers.ShareController.init(args);
 
             reportsModel = args.ReportsModel.init();
-            detailsView = LostAndFound.Views.ReportView.init(args.frame);
+            reportView = LostAndFound.Views.ReportView.init(args.frame);
 
 
             reportsModel.getReport(reportId, function (report) {
-                detailsView.displayReport(report);
+                reportView.displayReport(report);
                 report.zoom = 12;
                 mapView = LostAndFound.Views.MapView.init(args.frame, report);
                 mapView.displayReport(report);

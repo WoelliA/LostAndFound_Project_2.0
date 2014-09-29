@@ -21,7 +21,7 @@ LostAndFound.Controllers.MainController = (function () {
             paginationView = views.PaginationView.init(args.frame);
             geoModel = args.GeoModel.init();
             var point = geoModel.getDefaultLocation();
-            console.log("starting point", point);
+
             listView = views.ListView.init(document);
             mapView = views.MapView.init(args.frame, point);
 

@@ -37,18 +37,4 @@
         return this.type;
     };
 
-    this.toJSON = function () {
-        console.log("report tojson", _this);
-        for (var key in _this) {
-            var value = _this[key];
-            console.log("key value", key, value);
-            if (value instanceof Function) {
-                continue;
-            }
-            this[key] = value;
-        }
-        var json = JSON.stringify(this);
-        console.log("report as json: ", json);
-        return json;
-    };
 }

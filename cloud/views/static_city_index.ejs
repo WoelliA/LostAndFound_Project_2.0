@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    {{ if(locals.city) { }}
+    {{ var title = city.name + " - Verlorene und Gefundene Gegenstände"; }}
+    {{ var description = "In " + city.name + " etwas verloren oder gefunden? Stellen Sie hier eine Anzeige ein und bekommen Sie es wieder, oder kassieren den Finderlohn!"; }}
+
+    <title>{{-title}}</title>
+    <meta name="description" content="{{- description}}"/>
+    
+    <meta property="og:title" content="{{- title }}" />
+    <meta property="og:description" content="{{- description }}" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DieFundgrube" />
+    <meta name="twitter:title" content="{{-title}}"/>
+    <meta name="twitter:description" content="{{- description }}" />
+    
+  
+    {{ } }}
+
+    {{ include static_head.ejs }}
+</head>
+    <body>
+     {{ if(locals.city) { }}}
+        <script> var city = 
+            {{- JSON.stringify(locals.city) }};
+        </script>
+        {{ } }}
+
+        {{ include static_body_header.ejs }}
+    
+        <div class="content">
+            <div class="row">
+                <div class="map-canvas" style="width: 100%; height: 25rem"></div>
+            </div>
+            <div class="row type-select">
+                <div id="lost-button" class="button">Verlorengegangenes</div>
+                <div id="found-button" class="button">Gefundenes</div>
+            </div>
+            <div class="row">
+                <div class="icon-bar five-up" id="item-types">
+                </div>
+            </div>
+            <div class="row pagination-centered">
+                <ul class="pagination" id="pagination-frame"></ul>
+            </div>
+            <div class="row">
+                <ul id="reports-list" class="reports-list"></ul>
+            </div>
+            <div class="row pagination-centered">
+                <ul class="pagination" id="pagination-frame"></ul>
+            </div>
+        </div>
+
+        {{ include static_body_footer.ejs }}
+        {{ include static_includes.ejs }}
+
+        <script>
+            $(document).foundation();
+        </script>
+        <script>
+            LostAndFound.App.init();
+        </script>
+
+    </body>
+</html>

@@ -121,7 +121,6 @@
                     if (report) {
                         allReports[report.id] = report;
                         if (report.category) {
-                            console.log("REPORT CATEGORY", report.category);
                             var categoryId = report.category.id;
                             var category = {};
                             if (report.category.get('shortname')) {

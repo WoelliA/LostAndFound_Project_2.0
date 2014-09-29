@@ -6,9 +6,7 @@
 
         init = function (context, options) {
             options.center = new google.maps.LatLng(options.lat, options.lng);
-
-            console.log("SUBMIT MAP VIEW INIT", options);
-
+            
             var $maps = $(".map-canvas", context);
             map = new google.maps.Map($maps[0], options);
 
@@ -46,7 +44,6 @@
 
         setup = function (report) {
             if (map && report) {
-                console.log("SUBMIT REPORT VIEW SETUP", report);
                 var loc = new google.maps.LatLng(report.lat, report.lng);
                 map.setCenter(loc);
                 if (report.zoom) {

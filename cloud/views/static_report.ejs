@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+{{
+var r  = JSON.parse(report);
+report = r;
+
+var c = JSON.parse(category);
+
+var description = "";
+if (r.reward && r.type == "lost") {
+    description += "Finderlohn " + r.reward + " € - ";
+}
+description += r.description;
+
+
+var title = "";
+if (r.type == "lost") {
+    title += "Verloren! ";
+} else {
+    title += "Gefunden! ";
+}
+title += r.title;
+
+var image;
+if(r.image){
+    image = r.image.url;
+} else {
+    image = "http://" + host + "/res/images/placeholders/" + c.shortname + ".png";
+}
+
+}}
+<html>
+
+<head>
+    <title>{{= title }}</title>
+    <meta name="description" content="{{= description }}" />
+
+    <meta property="og:title" content="{{= title }}" />
+    <meta property="og:description" content="{{= description }}" />
+    <meta property="og:image" content="{{= image}}" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@DieFundgrube" />
+    <meta name="twitter:description" content="{{= description }}" />
+    <meta name="twitter:title" content="{{= title }}" />
+    <meta name="twitter:image" content="{{= image }}" />
+
+    <meta name="title" content="{{=title}}" />
+    <meta name="description" content="{{=description}}" />
+
+    {{ include static_head }}
+</head>
+<body>
+    {{ include static_body_header }}
+        <div>
+            <div class="row">
+                <div class="map-canvas" style="width: 100%; height: 200px"></div>
+            </div>
+            <div class="row report-details-content">
+                <div class="column small-10 details-frame" id="details-frame">
+                    <div class="row">
+                        <div class="column large-4 medium-5">
+                            {{ if(image){ }}
+                            <img style="width: 100%" src="{{=image}}">
+                            {{ } }}
+                        </div>
+                        <div class="column large-8 medium-7">
+                            <div class="row">
+                                <div class="columns medium-7">
+                                    <h3 class="subheader">{{=title}}</h3>
+                                    {{ if(report.reward){ }}
+                    <h5 class="subheader">{{=reward}} € Finderlohn </h5>
+                                    {{ } }}
+                                </div>
+                            </div>
+                            <p style="font-size: 0.8rem;">{{=description}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column small-2">
+                    <ul class="button-group stack-for-small">
+                        <li class="button small facebook-button">
+                            <span></span>share on facebook
+                        </li>
+                        <li class="button small twitter-button">
+                            <span></span>share on twitter
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row report-details-content">
+                <div style="width: 100%" data-width="100%" class="fb-comments facebook-control" id="facebook-comments" data-order-by="reverse_time" data-numposts="3" data-colorscheme="light"></div>
+            </div>
+
+        </div>
+    {{ include static_body_footer }}
+    {{ include static_includes }}
+</body>
+</html>

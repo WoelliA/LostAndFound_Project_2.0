@@ -78,7 +78,6 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                 alert("Bitte gib an, wo du den Gegenstand " + verb + " hast, indem du den Punkt auf der Karte markierst.");
                 return;
             }
-            console.log(report);
             loadingView.show();
             reportsModel.saveReport(report, {
                 success: function (r) {
@@ -91,9 +90,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             });
         },
 
-        onReportSaved = function(report) {
-            console.log("onreportcreatedd", report);
-            saveReportLocally(report);
+        onReportSaved = function (report) {
             var parameters = {};
             parameters.url = window.location.origin + "/report/" + report.id;
             parameters.text = report.getShareText();
@@ -101,6 +98,8 @@ LostAndFound.Controllers.SubmitReportController = (function () {
         },
 
         saveReportLocally = function (report) {
+
+            // not implemented yet _ TODO
             var key = "users-reports";
             var reports = [];
             if (localStorage[key]) {
@@ -108,7 +107,6 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             }
             reports = [report].concat(reports);
             localStorage.setItem(key, JSON.stringify(reports));
-            console.log(reports);
         },
 
         onInputChanged = function() {

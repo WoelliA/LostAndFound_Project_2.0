@@ -1,5 +1,4 @@
-﻿///#source 1 1 /helpers/helpers_bundle.js
-///#source 1 1 /helpers/InstanceLoader.js
+﻿///#source 1 1 /helpers/InstanceLoader.js
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -175,8 +174,6 @@ var Events;
 //# sourceMappingURL=Event.js.map
 
 
-///#source 1 1 /Presenting/presenting_bundle.js
-///#source 1 1 /Presenting/libs/libs.min.js
 (function(n){function u(n,t,i,r,u){this._listener=t;this._isOnce=i;this.context=r;this._signal=n;this._priority=u||0}function r(n,t){if(typeof n!="function")throw Error("listener is a required param of {fn}() and should be a Function.".replace("{fn}",t));}function t(){this._bindings=[];this._prevParams=null;var n=this;this.dispatch=function(){t.prototype.dispatch.apply(n,arguments)}}u.prototype={active:!0,params:null,execute:function(n){var t;return this.active&&this._listener&&(n=this.params?this.params.concat(n):n,t=this._listener.apply(this.context,n),this._isOnce&&this.detach()),t},detach:function(){return this.isBound()?this._signal.remove(this._listener,this.context):null},isBound:function(){return!!this._signal&&!!this._listener},isOnce:function(){return this._isOnce},getListener:function(){return this._listener},getSignal:function(){return this._signal},_destroy:function(){delete this._signal;delete this._listener;delete this.context},toString:function(){return"[SignalBinding isOnce:"+this._isOnce+", isBound:"+this.isBound()+", active:"+this.active+"]"}};t.prototype={VERSION:"1.0.0",memorize:!1,_shouldPropagate:!0,active:!0,_registerListener:function(n,t,i,r){var f=this._indexOfListener(n,i);if(f!==-1){if(n=this._bindings[f],n.isOnce()!==t)throw Error("You cannot add"+(t?"":"Once")+"() then add"+(t?"Once":"")+"() the same listener without removing the relationship first.");}else n=new u(this,n,t,i,r),this._addBinding(n);return this.memorize&&this._prevParams&&n.execute(this._prevParams),n},_addBinding:function(n){var t=this._bindings.length;do--t;while(this._bindings[t]&&n._priority<=this._bindings[t]._priority);this._bindings.splice(t+1,0,n)},_indexOfListener:function(n,t){for(var i=this._bindings.length,r;i--;)if(r=this._bindings[i],r._listener===n&&r.context===t)return i;return-1},has:function(n,t){return this._indexOfListener(n,t)!==-1},add:function(n,t,i){return r(n,"add"),this._registerListener(n,!1,t,i)},addOnce:function(n,t,i){return r(n,"addOnce"),this._registerListener(n,!0,t,i)},remove:function(n,t){r(n,"remove");var i=this._indexOfListener(n,t);return i!==-1&&(this._bindings[i]._destroy(),this._bindings.splice(i,1)),n},removeAll:function(){for(var n=this._bindings.length;n--;)this._bindings[n]._destroy();this._bindings.length=0},getNumListeners:function(){return this._bindings.length},halt:function(){this._shouldPropagate=!1},dispatch:function(){if(this.active){var i=Array.prototype.slice.call(arguments),n=this._bindings.length,t;if(this.memorize&&(this._prevParams=i),n){t=this._bindings.slice();this._shouldPropagate=!0;do n--;while(t[n]&&this._shouldPropagate&&t[n].execute(i)!==!1)}}},forget:function(){this._prevParams=null},dispose:function(){this.removeAll();delete this._bindings;delete this._prevParams},toString:function(){return"[Signal active:"+this.active+" numListeners:"+this.getNumListeners()+"]"}};var i=t;i.Signal=t;typeof define=="function"&&define.amd?define(function(){return i}):typeof module!="undefined"&&module.exports?module.exports=i:n.signals=i})(this);
 /** @license
  * crossroads <http://millermedeiros.github.com/crossroads.js/>
@@ -187,7 +184,6 @@ var Events;
 /*
 //# sourceMappingURL=libs.min.js.map
 */
-///#source 1 1 /Presenting/routing.js
 /// <reference path="../history.d.ts" />
 /// <reference path="../crossroads.d.ts" />
 /// <reference path="../history.d.ts" />
@@ -210,13 +206,11 @@ var Presenting;
         }
         Routing.prototype.addRoute = function (path, callback) {
             var _this = this;
-            console.log("Adding Route", path);
             var route = crossroads.addRoute(path, function () {
                 var params = [];
                 for (var _i = 0; _i < (arguments.length - 0); _i++) {
                     params[_i] = arguments[_i + 0];
                 }
-                console.log("route parsed", path, params);
                 if (callback)
                     callback(params);
                 else
@@ -225,12 +219,10 @@ var Presenting;
         };
 
         Routing.prototype.parse = function (url) {
-            console.log("parsing", url);
             crossroads.parse(url);
         };
 
         Routing.prototype.goback = function (skipParse) {
-            console.log("going back. skipping?", skipParse);
             this.skipParse = skipParse;
             this.historyjs.back();
         };
@@ -239,7 +231,6 @@ var Presenting;
             var state = this.historyjs.getState();
             this.parameter = state.data;
 
-            console.log("History STATE", state);
 
             if (state.hash) {
                 if (state.hash.indexOf('.html') > 0) {
@@ -255,7 +246,6 @@ var Presenting;
                 if (this.hashBackStack.length > 1) {
                     var previoushash = this.hashBackStack[this.hashBackStack.length - 2];
                     if (previoushash == hash) {
-                        console.log("routing gone back");
                         this.hashBackStack.pop();
                         this.hashBackStack.pop();
                         this.goBackRequested.dispatch(o);
@@ -264,7 +254,6 @@ var Presenting;
                 }
 
                 if (this.skipParse || o.handled) {
-                    console.log("skipping route parsing");
                     this.skipParse = false;
                     crossroads.resetState();
                 } else {
@@ -272,7 +261,6 @@ var Presenting;
                 }
                 this.hashBackStack.push(hash);
             } else {
-                console.error("History state has no hash");
             }
         };
         Routing.routeParsed = "routeParsed";
@@ -282,7 +270,6 @@ var Presenting;
 })(Presenting || (Presenting = {}));
 //# sourceMappingURL=routing.js.map
 
-///#source 1 1 /Presenting/loader.js
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -311,7 +298,6 @@ var Presenting;
                     _this.cache[target] = result;
                     _this.finish(result, loadingResult, callback);
                 }).fail(function (xhr, options, r) {
-                    console.error("failed to load", target, filename, xhr, options, r);
                     _this.finish(null, loadingResult, callback);
                     if (_this.settings.extension != ".html") {
                         return;
@@ -431,7 +417,6 @@ var Presenting;
 })(Presenting || (Presenting = {}));
 //# sourceMappingURL=loader.js.map
 
-///#source 1 1 /Presenting/presenter.js
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -467,13 +452,13 @@ var Presenting;
         }
         PresentationRequest.prototype.execute = function () {
             var _this = this;
-            this.processLoaders(function () {
-                _this.loadersDone = true;
+            this.loadHtml(function () {
+                _this.viewLoaderDone = true;
                 _this.tryFinish();
             });
 
-            this.loadHtml(function () {
-                _this.viewLoaderDone = true;
+            this.processLoaders(function () {
+                _this.loadersDone = true;
                 _this.tryFinish();
             });
         };
@@ -548,7 +533,6 @@ var Presenting;
 
         Presenter.prototype.onContentLoaded = function (content, parameter) {
             var _this = this;
-            console.log("oncontentloaded", content);
             if (this.contentListeners == null) {
                 return;
             }
@@ -596,7 +580,6 @@ var Presenting;
         }
         TitleSettingContentListener.prototype.onContentLoaded = function (presenter, content, parameter) {
             var titleEls = $("title", content);
-            console.log("title elements", titleEls);
             if (titleEls) {
                 var el = titleEls[0];
                 if (el) {
@@ -622,7 +605,6 @@ var Presenting;
                 for (var _i = 0; _i < (arguments.length - 1); _i++) {
                     params[_i] = arguments[_i + 1];
                 }
-                console.log('mainpresenter route callback', params);
                 _this.show(params[0], null);
             });
             this.routing.addRoute("{section}");
@@ -695,12 +677,10 @@ var Presenting;
             });
         }
         FoundationModal.prototype.show = function () {
-            console.log("modal.show");
             this.isOpen = true;
             this.$modal.foundation('reveal', 'open');
         };
         FoundationModal.prototype.hide = function () {
-            console.log("modal.hide");
             this.isOpen = false;
             this.$modal.foundation('reveal', 'close');
         };
@@ -710,7 +690,6 @@ var Presenting;
 })(Presenting || (Presenting = {}));
 //# sourceMappingURL=presenter.js.map
 
-///#source 1 1 /Presenting/modal.js
 /// <reference path="../events/event.ts" />
 /// <reference path="presenter.ts" />
 var Presenting;
@@ -725,7 +704,6 @@ var Presenting;
 })(Presenting || (Presenting = {}));
 //# sourceMappingURL=modal.js.map
 
-///#source 1 1 /Presenting/presenting.js
 /// <reference path="presenter.ts" />
 var Presenting;
 (function (Presenting) {

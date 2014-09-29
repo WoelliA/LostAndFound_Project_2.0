@@ -47,7 +47,6 @@ LostAndFound.Model.Dummy.DummyReport = function (num, request) {
     };
 
     this.getType = function getType() {
-        console.log(this.type);
         if (this.type)
             return this.type;
         return "lost";
