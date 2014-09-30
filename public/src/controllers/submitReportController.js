@@ -31,7 +31,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             configModel.getItemTypes(function (categories) {
                 submitView.setCategories(categories);
             });
-            
+
             submitView.adjustLabels(controlsView.getSelectedType());
 
             attachListeners();
@@ -39,7 +39,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             return that;
         },
 
-        createReport = function() {
+        createReport = function () {
             var report = new LostAndFound.Model.Report();
             var position = mapView.getPosition();
             if (position) {
@@ -64,14 +64,14 @@ LostAndFound.Controllers.SubmitReportController = (function () {
 
         attachListeners = function () {
             $(submitView).on('category-changed', onInputChanged);
-            $(controlsView).on('type-changed', function() {
+            $(controlsView).on('type-changed', function () {
                 onInputChanged();
                 submitView.adjustLabels(controlsView.getSelectedType());
             });
             $(submitView).on('report-submit', onReportSubmit);
         },
 
-        onReportSubmit = function() {
+        onReportSubmit = function () {
             var report = createReport();
             if (!(report.lng && report.lat)) {
                 var verb = report.type == "lost" ? "verloren" : "gefunden";
@@ -84,7 +84,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
                     onReportSaved(r);
                     loadingView.hide();
                 },
-                error: function() {
+                error: function () {
                     loadingView.hide();
                 }
             });
@@ -95,7 +95,9 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             parameters.url = window.location.origin + "/report/" + report.id;
             parameters.text = report.getShareText();
             LostAndFound.ModalPresenter.showWithoutLocation("share", parameters);
-            History.pushState(null, null, "main");
+            setTimeout(function () {
+                History.pushState(null, null, "main");
+            }, 500);
         },
 
         saveReportLocally = function (report) {
@@ -110,7 +112,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             localStorage.setItem(key, JSON.stringify(reports));
         },
 
-        onInputChanged = function() {
+        onInputChanged = function () {
             var report = createReport();
             mapView.adjust(report);
         };
