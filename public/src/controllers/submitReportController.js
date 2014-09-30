@@ -11,7 +11,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
         init = function (args) {
             var geoModel = args.GeoModel.init();
             controlsView = LostAndFound.Views.ControlsView.init(args.frame);
-            mapView = LostAndFound.Views.SubmitReportMapView.init(args.frame, geoModel.getDefaultLocation());
+            mapView = LostAndFound.Views.SubmitReportMapView.init();
             submitView = LostAndFound.Views.SubmitReportView.init(args.frame);
             loadingView = LostAndFound.Views.LoadingView.init();
 

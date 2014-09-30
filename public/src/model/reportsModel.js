@@ -52,12 +52,13 @@
 
 
         saveParseReport = function (parseReport, callbackObject) {
-            parseReport.save({
+            parseReport.save(null, {
                 success: function () {
                     var modelReport = createResults([parseReport])[0];
                     callbackObject.success(modelReport);
                 },
                 error: function (error) {
+                    callbackObject.error();
                     console.log(error);
                 }
             });

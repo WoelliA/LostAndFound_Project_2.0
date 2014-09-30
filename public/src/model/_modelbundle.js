@@ -30,7 +30,7 @@ LostAndFound.Model.GeoModel = (function () {
 
         getDefaultLocation = function () {
             if (window.city) {
-                return window.city;
+                return $.extend({}, city);
             }
             return restoreSavedSettings() || initialLocation;
         },
@@ -50,7 +50,7 @@ LostAndFound.Model.GeoModel = (function () {
 
         getCurrentLocation = function (callback) {
             if (window.city) {
-                callback(window.city);
+                callback($.extend({}, city));
                 return;
             }
             var defaultLoc = getDefaultLocation();
@@ -128,12 +128,13 @@ LostAndFound.Model.ReportsModel = (function () {
 
 
         saveParseReport = function (parseReport, callbackObject) {
-            parseReport.save({
+            parseReport.save(null, {
                 success: function () {
                     var modelReport = createResults([parseReport])[0];
                     callbackObject.success(modelReport);
                 },
                 error: function (error) {
+                    callbackObject.error();
                     console.log(error);
                 }
             });

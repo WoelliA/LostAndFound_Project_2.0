@@ -4,35 +4,23 @@
         marker,
         position,
 
-        init = function (context, options) {
-            options.center = new google.maps.LatLng(options.lat, options.lng);
-            
-            var $maps = $(".map-canvas", context);
-            map = new google.maps.Map($maps[0], options);
+        init = function (options) {
+            var $maps = $(".map-canvas");
+            if (options) {
+                console.warn("map init", options);
+                var mapoptions = { center: new google.maps.LatLng(options.lat, options.lng) };
 
-            if (options.zoom) {
-                map.setZoom(options.zoom);
+                mapoptions.zoom = options.zoom || 10;
+
+                map = new window.google.maps.Map($maps[0], mapoptions);
+            } else {
+                setTimeout(function () {
+                    init(options);
+                }, 200);
             }
-
-            google.maps.event.addListener(map, 'rightclick', function (evt) {
-                var latLng = evt.latLng;
-                setCenter({
-                    lat: latLng.lat(), lng: latLng.lng()
-                });
-            });
-
-            google.maps.event.addListener(map, 'center_changed', function () {
-                var latLng = map.getCenter();
-                if (marker) {
-                    marker.setAnimation(null);
-                    marker.setPosition(latLng);
-                    position = {
-                        lat: latLng.lat(),
-                        lng: latLng.lng()
-                    };
-                    $('.set-location-hint').addClass("hidden");
-                }
-            });
+            setTimeout(function () {
+                google.maps.event.trigger(map, 'resize');
+            }, 200);
             return that;
         },
 
@@ -43,8 +31,12 @@
         },
 
         setup = function (report) {
-            if (map && report) {
-                var loc = new google.maps.LatLng(report.lat, report.lng);
+            if (!map) {
+                init(report);
+            }
+
+            if (report && report.lat && report.lng) {
+                var loc = new window.google.maps.LatLng(report.lat, report.lng);
                 map.setCenter(loc);
                 if (report.zoom) {
                     map.setZoom(report.zoom);
@@ -56,7 +48,7 @@
                     position = report;
                 }
 
-                marker = new google.maps.Marker({
+                marker = new window.google.maps.Marker({
                     position: loc,
                     map: map,
                     icon: icon,
@@ -64,18 +56,38 @@
                 });
 
                 if (!position) {
-                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                    marker.setAnimation(window.google.maps.Animation.BOUNCE);
                 }
 
-                google.maps.event.addListener(marker, 'drag', function () {
-                    map.setCenter(marker.getPosition());
+                window.google.maps.event.addListener(marker, 'drag', function () {
+                    var center = marker.getPosition();
+                    if (center) {
+                        map.setCenter(marker.getPosition());
+                    }
                 });
-                google.maps.event.addListener(marker, 'dragstart', function () {
-                    marker.setAnimation(null);
+                window.google.maps.event.addListener(marker, 'dragstart', function () {
+                    if (marker)
+                        marker.setAnimation(null);
                 });
 
-                google.maps.event.addListener(marker, 'dragend', function () {
+                window.google.maps.event.addListener(marker, 'dragend', function () {
                     position = marker.getPosition();
+                });
+
+                window.google.maps.event.addListener(map, 'center_changed', function () {
+                    if (!map) {
+                        return;
+                    }
+                    var latLng = map.getCenter();
+                    if (marker && latLng) {
+                        marker.setAnimation(null);
+                        marker.setPosition(latLng);
+                        position = {
+                            lat: latLng.lat(),
+                            lng: latLng.lng()
+                        };
+                        $('.set-location-hint').addClass("hidden");
+                    }
                 });
             }
         };

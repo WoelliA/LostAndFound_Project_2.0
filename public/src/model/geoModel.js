@@ -9,7 +9,7 @@
 
         getDefaultLocation = function () {
             if (window.city) {
-                return window.city;
+                return $.extend({}, city);
             }
             return restoreSavedSettings() || initialLocation;
         },
@@ -29,7 +29,7 @@
 
         getCurrentLocation = function (callback) {
             if (window.city) {
-                callback(window.city);
+                callback($.extend({}, city));
                 return;
             }
             var defaultLoc = getDefaultLocation();
