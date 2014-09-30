@@ -95,6 +95,7 @@ LostAndFound.Controllers.SubmitReportController = (function () {
             parameters.url = window.location.origin + "/report/" + report.id;
             parameters.text = report.getShareText();
             LostAndFound.ModalPresenter.showWithoutLocation("share", parameters);
+            History.pushState(null, null, "main");
         },
 
         saveReportLocally = function (report) {
