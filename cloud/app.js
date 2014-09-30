@@ -15,13 +15,16 @@ crawlers = [
     'facebook',
     'facebot',
     'twitterbot',
-    'googlebot',
-    'bingbot'
+    'google',
+    'bingbot',
+    'msnbot',
+    'sitemaps generator'
 ];
 
 
 function isCrawled(request, crawlers) {
     var userAgent = request.get('user-agent').toLowerCase();
+    console.log(userAgent);
     for (var i = 0; i < crawlers.length; i++) {
         var bot = crawlers[i];
         if (userAgent.indexOf(bot) >= 0) {
